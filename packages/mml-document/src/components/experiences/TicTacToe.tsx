@@ -4,6 +4,7 @@ import { GroupProps } from "../../types";
 import { CustomElement } from "../../types/declaration";
 
 type Player = "X" | "O";
+type ClickEvent = Event & { detail: any };
 type CollisionEvent = Event & { detail: any };
 
 export default function TicTacToe(props: GroupProps) {
@@ -17,7 +18,7 @@ export default function TicTacToe(props: GroupProps) {
     ["", "", ""],
     ["", "", ""],
   ]);
-  const [labelText, setLabelText] = useState("Tic Tac Toe!!!");
+  const [labelText, setLabelText] = useState("Tic Tac Toe!");
   const [fontSize, setFontSize] = useState(28);
   const player1CubeRef = useRef<CustomElement<any>>();
   const player2CubeRef = useRef<CustomElement<any>>();
@@ -98,7 +99,7 @@ export default function TicTacToe(props: GroupProps) {
     return board.every((row) => row.every((cell) => cell !== ""));
   }
 
-  function selectCell(x: number, y: number, e: CollisionEvent) {
+  function selectCell(x: number, y: number, e: ClickEvent) {
     if (!hasPlayers) return;
 
     const { connectionId } = e.detail;
@@ -197,7 +198,22 @@ export default function TicTacToe(props: GroupProps) {
       onCubeLeave(e, 2);
     });
 
+    function handleDisconnect(event: any) {
+      const { connectionId } = event.detail;
+      if (players[0] === connectionId) {
+        restart();
+        setPlayers([null, players[1]]);
+      }
+      if (players[1] === connectionId) {
+        restart();
+        setPlayers([players[0], null]);
+      }
+    }
+
+    window.addEventListener("disconnected", handleDisconnect);
+
     return () => {
+      window.removeEventListener("disconnected", handleDisconnect);
       player1Cube?.removeEventListener("collisionenter", () => onCubeCollision);
       player1Cube?.removeEventListener("collisionleave", () => onCubeLeave);
       player2Cube?.removeEventListener("collisionenter", () => onCubeCollision);
@@ -238,7 +254,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(0, 0, e)}
+        onClick={(e: ClickEvent) => selectCell(0, 0, e)}
         content={board[0][0]}
       ></m-label>
       <m-label
@@ -252,7 +268,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(1, 0, e)}
+        onClick={(e: ClickEvent) => selectCell(1, 0, e)}
         content={board[0][1]}
       ></m-label>
       <m-label
@@ -266,7 +282,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(2, 0, e)}
+        onClick={(e: ClickEvent) => selectCell(2, 0, e)}
         content={board[0][2]}
       ></m-label>
       <m-label
@@ -280,7 +296,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(0, 1, e)}
+        onClick={(e: ClickEvent) => selectCell(0, 1, e)}
         content={board[1][0]}
       ></m-label>
       <m-label
@@ -294,7 +310,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(1, 1, e)}
+        onClick={(e: ClickEvent) => selectCell(1, 1, e)}
         content={board[1][1]}
       ></m-label>
       <m-label
@@ -308,7 +324,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(2, 1, e)}
+        onClick={(e: ClickEvent) => selectCell(2, 1, e)}
         content={board[1][2]}
       ></m-label>
       <m-label
@@ -322,7 +338,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(0, 2, e)}
+        onClick={(e: ClickEvent) => selectCell(0, 2, e)}
         content={board[2][0]}
       ></m-label>
       <m-label
@@ -336,7 +352,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(1, 2, e)}
+        onClick={(e: ClickEvent) => selectCell(1, 2, e)}
         content={board[2][1]}
       ></m-label>
       <m-label
@@ -350,7 +366,7 @@ export default function TicTacToe(props: GroupProps) {
         color="#ffffff"
         alignment="center"
         padding={0}
-        onClick={(e: CollisionEvent) => selectCell(2, 2, e)}
+        onClick={(e: ClickEvent) => selectCell(2, 2, e)}
         content={board[2][2]}
       ></m-label>
       <m-label

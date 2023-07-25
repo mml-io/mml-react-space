@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import WallProbe from "../components/furniture/WallProbe";
+import WallProbe from "../components/experiences/WallProbe";
 import BasicRoom, { WallConfig } from "../components/structures/BasicRoom";
 import Image from "../components/structures/Image";
 import Level from "../components/structures/Level";
@@ -120,7 +120,14 @@ export default function GroundFloor(props: GroupProps) {
           z={-3.25}
           filled
         />
-        <m-cube width={5} depth={4} height={0.35} z={-8} y={1.825} collide />
+        <m-cube
+          width={5}
+          depth={4}
+          height={0.35}
+          z={-8}
+          y={1.825}
+          collide={true}
+        />
         <Stairs
           stairDepth={3.2}
           totalWidth={5.8}

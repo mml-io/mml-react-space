@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import DiscoFloor from "../components/experiences/DiscoFloor";
 import DiscoBall from "../components/furniture/DiscoBall";
-import DiscoFloor from "../components/furniture/DiscoFloor";
 import BasicRoom from "../components/structures/BasicRoom";
 import Stairs from "../components/structures/Stairs";
 import SimpleSwitch from "../components/utilis/SimpleSwitch";
