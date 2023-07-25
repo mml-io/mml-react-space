@@ -113,6 +113,7 @@
 
 
 
+        setLabelText(`Player ${currentPlayer} wins!\nClick here to restart...`);
 
 
 
@@ -371,6 +372,7 @@
 
 
 
+        collision-interval="1000"
 
 
 
@@ -392,9 +394,7 @@
 
 
 
-
-
-
+        collision-interval="1000"
 
 
 

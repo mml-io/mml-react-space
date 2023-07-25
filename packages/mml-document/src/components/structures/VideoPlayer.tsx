@@ -1,3 +1,4 @@
+import React, { useMemo, useRef } from "react";
 
 
 
@@ -12,6 +13,7 @@
 
 
 
+  const videoRef = useRef<HTMLVideoElement>(null);
 
 
 
@@ -88,9 +90,7 @@
 
 
 
-
-
-
+        volume={0}
 
 
 

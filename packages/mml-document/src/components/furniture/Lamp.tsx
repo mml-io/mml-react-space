@@ -1,4 +1,15 @@
 
+import { useEffect, useRef } from "react";
+
+
+
+
+
+
+
+  const spotlightRef = useRef<CustomElement<any>>(null);
+  const pointLightRef = useRef<CustomElement<any>>(null);
+  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 
 
@@ -33,6 +44,7 @@
 
 
 
+  useEffect(() => {
 
 
 
@@ -42,19 +54,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }, []);
 
 
 

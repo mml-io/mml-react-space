@@ -32,6 +32,7 @@
 
 
 
+          (x) => Math.abs(newBookX - x) > bookWidth + shelfSpacing
 
 
 
@@ -54,8 +55,7 @@
 
 
 
-
-
+    ))
 
 
 

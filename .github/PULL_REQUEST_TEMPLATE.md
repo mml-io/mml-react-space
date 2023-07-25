@@ -3,7 +3,7 @@
 
 
 
-
+Before submitting, please review the contributor guidelines: https://github.com/mml-io/mml-react-space/blob/main/CONTRIBUTING.md.
 
 
 

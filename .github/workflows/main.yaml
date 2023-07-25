@@ -1,3 +1,30 @@
+name: Main
+
+
+
+
+
+
+
+
+
+
+
+
+  main:
+    name: Main
+
+
+
+
+
+
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache
+          key: ${{ runner.os }}
 
 
 
@@ -11,38 +38,11 @@
 
 
 
+      - name: Test
+        run: npm run test-all
+
+      - name: Type Check
+        run: npm run type-check-all
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        run: npm run lint-all

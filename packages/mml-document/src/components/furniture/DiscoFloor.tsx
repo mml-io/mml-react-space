@@ -54,6 +54,13 @@
 
 
 
+      const canvasWidth = width * 30;
+      const canvasHeight = depth * 30;
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      const scaleX = canvasWidth / width;
+      const scaleY = canvasHeight / depth;
+      const pointDrawSize = canvasWidth / 10;
 
 
 
@@ -62,20 +69,13 @@
 
 
 
+          canvasWidth / 2 + user.position.x * scaleX - halfPointDrawSize,
+          canvasHeight / 2 - user.position.z * scaleY - halfPointDrawSize,
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+      ctx.strokeRect(0, 0, canvasWidth, canvasHeight);
 
 
 
