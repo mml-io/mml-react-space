@@ -19,7 +19,7 @@ npm install
 npm run iterate
 ```
 
-After the server is up and running, open `http://localhost:20205` in your browser.
+After the server is up and running, open `http://localhost:8080` in your browser.
 
 ## Apple Silicon Support
 
@@ -35,14 +35,14 @@ Once all the packages are installed, you should be able to install the canvas pa
 npm install canvas
 ```
 
-Project Structure
-The entry point of the React application is located at ./packages/mml-document/src, where you can find the index.tsx file.
+## Project Structure
+The entry point of the React application is located at `./packages/mml-document/src`, where you can find the index.tsx file.
 
 The application is organized around the concept of "floors," essentially collections of "rooms." These floors are housed within the ./packages/mml-document/src/floors directory.
 
-Each floor consists of various rooms, each of which you can find within the ./packages/mml-document/src/rooms directory. The x, y, and z props can be used to adjust the position of each floor and room within the 3D space, allowing for a highly customizable layout.
+Each floor consists of various rooms, each of which you can find within the `./packages/mml-document/src/rooms directory`. The x, y, and z props can be used to adjust the position of each floor and room within the 3D space, allowing for a highly customizable layout.
 
-In the ./packages/mml-document/src/components directory, you can find a variety of structural components, furniture, and other items used to assemble the rooms.
+In the `./packages/mml-document/src/components` directory, you can find a variety of structural components, furniture, and other items used to assemble the rooms.
 
 ## Experiences
 
