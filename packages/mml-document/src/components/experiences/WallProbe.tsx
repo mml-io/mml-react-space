@@ -91,15 +91,15 @@ export default function WallProbe() {
       clearUser(connectionId);
     });
 
-    function handleConnected(event: any) {
-      const { connectionId, position, rotation } = event.detail;
-      getOrCreateUser(connectionId, position, rotation);
+    function handleDisconnect(event: any) {
+      const { connectionId } = event.detail;
+      clearUser(connectionId);
     }
 
-    window.addEventListener("disconnected", handleConnected);
+    window.addEventListener("disconnected", handleDisconnect);
 
     return () => {
-      window.removeEventListener("disconnected", handleConnected);
+      window.removeEventListener("disconnected", handleDisconnect);
     };
   }, []);
 

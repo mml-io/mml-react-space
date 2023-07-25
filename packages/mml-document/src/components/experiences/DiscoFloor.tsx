@@ -43,7 +43,6 @@ export default function DiscoFloor(props: FloorProps) {
   function clearUser(connectionId: string) {
     const user = connectedUsersRef.current.get(connectionId);
     if (!user) return;
-    user.cube.remove();
     connectedUsersRef.current.delete(connectionId);
   }
 
