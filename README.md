@@ -1,6 +1,6 @@
 # MML React Space
 
-The React Space is an ambitious project that merges the capabilities of Mixed Markup Language (MML) with the composability and dynamism of React. The aim is to provide an environment where developers can create interactive, immersive experiences with ease and speed.
+The React Space is an ambitious project that merges the capabilities of Metaverse Markup Language (MML) with the composability and dynamism of React. The aim is to provide an environment where developers can create interactive, immersive experiences with ease and speed.
 
 Visualize building a structure. In this project, each component is like a 'room', built from 'walls' (elements). These rooms combine to form a 'floor' (a cohesive collection of related components). Leveraging the intuitive syntax of React, developers can swiftly prototype and convert their ideas into an engaging, tangible form.
 
