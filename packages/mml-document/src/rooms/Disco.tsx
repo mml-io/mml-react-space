@@ -34,13 +34,13 @@ export default function Disco(props: RoomProps) {
       wallConfig={props.wallConfig}
       floorConfig={{
         invisible: disconOn,
-        color: "black",
+        color: "white",
       }}
       hasCeiling
     >
       {props.children}
-      <DiscoFloor width={width} depth={depth} visible={disconOn} />
-      <DiscoBall y={3.2} z={4} x={-7.5} speed={1} isOn={disconOn} />
+      {disconOn && <DiscoFloor width={width} depth={depth} />}
+      <DiscoBall y={3.2} z={4} x={-7.5} isOn={disconOn} />
       <SimpleSwitch
         y={1.2}
         x={8.35}

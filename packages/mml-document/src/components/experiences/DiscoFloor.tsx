@@ -1,7 +1,20 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import { GroupProps, Position, Rotation } from "../../types";
+import { GroupProps } from "../../types";
 import { CustomElement } from "../../types/declaration";
+import { hslToHex } from "../utilis/hslToHex";
+
+type ConnectionEvent = CustomEvent<{ connectionId: number }>;
+type CollisionEvent = CustomEvent<
+  PositionAndRotation & { connectionId: number }
+>;
+
+type Position = { x: number; y: number; z: number };
+type Rotation = { x: number; y: number; z: number };
+export type PositionAndRotation = {
+  position: Position;
+  rotation: Rotation;
+};
 
 type FloorProps = GroupProps & {
   width: number;
@@ -9,19 +22,18 @@ type FloorProps = GroupProps & {
   visible?: boolean;
 };
 
-const colors = ["red", "blue", "green", "purple", "yellow", "pink", "orange"];
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d");
 
 export default function DiscoFloor(props: FloorProps) {
   const { width, depth, ...rest } = props;
+  const [dataUri, setDataUri] = useState<string>("");
 
-  // Initial color index
-  const floorRef = useRef<CustomElement<any>>(null);
-  const canvasRef = useRef<CustomElement<any>>(null);
-  const timeRef = useRef<number>(0);
-  const connectedUsersRef = useRef(new Map<string, any>());
+  const floorRef = useRef<CustomElement<any>>();
+  const connectedUsersRef = useRef(new Map<number, PositionAndRotation>());
 
   function getOrCreateUser(
-    connectionId: string,
+    connectionId: number,
     position: Position,
     rotation: Rotation
   ) {
@@ -40,110 +52,101 @@ export default function DiscoFloor(props: FloorProps) {
     return newUser;
   }
 
-  function clearUser(connectionId: string) {
+  function clearUser(connectionId: number) {
     const user = connectedUsersRef.current.get(connectionId);
-    if (!user) return;
+    if (!user) {
+      return;
+    }
     connectedUsersRef.current.delete(connectionId);
   }
 
+  const drawState = useCallback(() => {
+    const canvasWidth = width * 30;
+    const canvasHeight = depth * 30;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    const scaleX = canvasWidth / width;
+    const scaleY = canvasHeight / depth;
+    const pointDrawSize = canvasWidth / 15;
+    const halfPointDrawSize = pointDrawSize / 2;
+    if (!ctx) {
+      return;
+    }
+
+    const fillHue = ((Date.now() % 4000) / 4000) * 360;
+    ctx.fillStyle = hslToHex(fillHue, 1, 0.5);
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    const presenceHue = (((Date.now() + 2000) % 4000) / 4000) * 360;
+    ctx.fillStyle = hslToHex(presenceHue, 1, 0.5);
+    for (const [, user] of connectedUsersRef.current) {
+      ctx.fillRect(
+        canvasWidth / 2 + user.position.x * scaleX - halfPointDrawSize,
+        canvasHeight / 2 - user.position.z * scaleY - halfPointDrawSize,
+        pointDrawSize,
+        pointDrawSize
+      );
+    }
+    setDataUri(canvas.toDataURL("image/png"));
+  }, [width, depth]);
+
   useEffect(() => {
-    function drawState() {
-      const canvasView = canvasRef.current;
-
-      if (!canvasView) return;
-
-      const canvas = document.createElement("canvas");
-      const canvasWidth = width * 30;
-      const canvasHeight = depth * 30;
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
-      const scaleX = canvasWidth / width;
-      const scaleY = canvasHeight / depth;
-      const pointDrawSize = canvasWidth / 10;
-      const halfPointDrawSize = pointDrawSize / 2;
-      const ctx = canvas.getContext("2d");
-
-      if (!ctx) return;
-
-      ctx.fillStyle = "green";
-      for (const [, user] of connectedUsersRef.current) {
-        ctx.fillRect(
-          canvasWidth / 2 + user.position.x * scaleX - halfPointDrawSize,
-          canvasHeight / 2 - user.position.z * scaleY - halfPointDrawSize,
-          pointDrawSize,
-          pointDrawSize
-        );
-      }
-      ctx.strokeRect(0, 0, canvasWidth, canvasHeight);
-      const dataUri = canvas.toDataURL("image/png");
-      canvasView.setAttribute("src", dataUri);
+    if (!floorRef.current) {
+      return;
     }
-
-    drawState();
-
-    function handleCollisionStart(event: Event) {
-      console.log("collision start");
-      const { connectionId } = (event as any).detail;
+    function handleCollisionStart(event: CollisionEvent) {
+      const { connectionId } = event.detail;
       getOrCreateUser(
         connectionId,
-        (event as any).detail.position,
-        (event as any).detail.rotation
+        event.detail.position,
+        event.detail.rotation
       );
-      drawState();
     }
 
-    function handleCollisionMove(event: Event) {
-      const { connectionId } = (event as any).detail;
+    function handleCollisionMove(event: CollisionEvent) {
+      const { connectionId } = event.detail;
       getOrCreateUser(
         connectionId,
-        (event as any).detail.position,
-        (event as any).detail.rotation
+        event.detail.position,
+        event.detail.rotation
       );
-      drawState();
     }
 
-    function handleCollisionEnd(event: Event) {
-      const { connectionId } = (event as any).detail;
+    function handleCollisionEnd(event: CollisionEvent) {
+      const { connectionId } = event.detail;
       connectedUsersRef.current.delete(connectionId);
-      drawState();
     }
 
     const floor = floorRef.current;
-
-    floor?.addEventListener("collisionstart", handleCollisionStart);
-    floor?.addEventListener("collisionmove", handleCollisionMove);
-    floor?.addEventListener("collisionend", handleCollisionEnd);
-
-    function handleDisconnected(event: Event) {
-      const { connectionId } = (event as any).detail;
-      clearUser(connectionId);
-      drawState();
-    }
-
-    window.addEventListener("disconnected", handleDisconnected);
-
+    floor.addEventListener("collisionstart", handleCollisionStart);
+    floor.addEventListener("collisionmove", handleCollisionMove);
+    floor.addEventListener("collisionend", handleCollisionEnd);
     return () => {
-      window.removeEventListener("disconnected", handleDisconnected);
-      floor?.removeEventListener("collisionstart", handleCollisionStart);
-      floor?.removeEventListener("collisionmove", handleCollisionMove);
-      floor?.removeEventListener("collisionend", handleCollisionEnd);
+      floor.removeEventListener("collisionstart", handleCollisionStart);
+      floor.removeEventListener("collisionmove", handleCollisionMove);
+      floor.removeEventListener("collisionend", handleCollisionEnd);
     };
-  }, [depth, width]);
+  }, [drawState, floorRef]);
 
   useEffect(() => {
-    // Change color every 500ms
-    const interval = setInterval(() => {
-      if (!floorRef.current) return;
+    drawState();
+    const interval = setInterval(drawState, 100);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [drawState]);
 
-      const floor = floorRef.current;
-      const time = timeRef.current;
-      const cellColor = colors[time % colors.length];
-      floor.setAttribute("color", cellColor);
-      timeRef.current = time + 1;
-    }, 500);
-
-    return () => clearInterval(interval); // Clean up interval on unmount
+  const handleDisconnected = useCallback((event: Event) => {
+    const { connectionId } = (event as ConnectionEvent).detail;
+    clearUser(connectionId);
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("disconnected", handleDisconnected);
+    return () => {
+      window.removeEventListener("disconnected", handleDisconnected);
+    };
+  }, [handleDisconnected]);
 
   return (
     <m-group y={0.05} {...rest}>
@@ -157,14 +160,13 @@ export default function DiscoFloor(props: FloorProps) {
         x={0}
         z={0}
         y={-0.05}
-        color={"red"}
-        collision-interval="100"
+        collision-interval={100}
       />
       <m-image
         id="canvas-view"
-        ref={canvasRef}
-        rx="90"
-        y="0.01"
+        src={dataUri}
+        rx={90}
+        y={0.01}
         collide="false"
         width={width}
         height={depth}

@@ -1,27 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { GroupProps } from "../../types";
+import { hslToHex } from "../utilis/hslToHex";
 
 type DiscoBallProps = GroupProps & {
   radius?: number;
-  speed?: number;
   color?: string;
-  activeColor?: string;
   isOn?: boolean;
 };
 
 export default function DiscoBall(props: DiscoBallProps) {
-  const {
-    radius = 0.5,
-    isOn,
-    speed = 0.02,
-    color = "silver",
-    activeColor = "yellow",
-    ...groupProps
-  } = props;
+  const { radius = 0.5, isOn, color = "silver", ...groupProps } = props;
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
-  const [rotation, setRotation] = useState(0);
+  const [activeColor, setActiveColor] = useState("white");
 
   useEffect(() => {
     if (!isOn) {
@@ -30,16 +22,18 @@ export default function DiscoBall(props: DiscoBallProps) {
     }
 
     intervalRef.current = setInterval(() => {
-      setRotation((prevRotation) => prevRotation + speed);
-    }, 1000 / 60); // update 60 times per second
+      setActiveColor(
+        hslToHex((((Date.now() + 2000) % 4000) / 4000) * 360, 1, 0.5)
+      );
+    }, 100);
 
     return () => {
       clearInterval(intervalRef.current); // clear interval when component unmounts
     };
-  }, [isOn, speed]);
+  }, [isOn]);
 
   return (
-    <m-group ry={rotation} {...groupProps}>
+    <m-group {...groupProps}>
       <m-sphere color={isOn ? activeColor : color} radius={radius} />
     </m-group>
   );
