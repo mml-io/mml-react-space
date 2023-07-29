@@ -6,9 +6,9 @@
   },
   "scripts": {
     "preinstall": "node check-node-version.js",
+    "postinstall": "npm run build",
     "build": "lerna run --stream build",
     "start": "npm run start -w server",
-    "build-and-start": "npm run build && npm run start",
     "iterate": "npm run build && lerna run --parallel --stream iterate",
     "type-check-all": "lerna run --stream type-check",
     "test-all": "lerna run --parallel --stream --no-bail test",
