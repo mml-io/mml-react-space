@@ -1,0 +1,8 @@
+{
+  "template": "node",
+  "startScript": "build-and-start",
+  "node": "18",
+  "container": {
+    "node": "18"
+  }
+}
