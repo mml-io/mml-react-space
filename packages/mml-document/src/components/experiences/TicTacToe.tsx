@@ -242,7 +242,7 @@ export default function TicTacToe(props: GroupProps) {
         x={-1.5}
         y={-1.43}
         z={1.5}
-        rx={90}
+        rx={-90}
         color="red"
         content="X"
         alignment="center"
@@ -265,7 +265,7 @@ export default function TicTacToe(props: GroupProps) {
         y={-1.43}
         z={1.5}
         color="red"
-        rx={90}
+        rx={-90}
         content="O"
         alignment="center"
         font-size={80}
