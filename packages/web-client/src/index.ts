@@ -55,7 +55,8 @@ export class App {
 
     this.timeManager = new TimeManager();
     this.keyInputManager = new KeyInputManager();
-    this.cameraManager = new CameraManager();
+    this.collisionsManager = new CollisionsManager(this.scene);
+    this.cameraManager = new CameraManager(this.collisionsManager);
     this.camera = this.cameraManager.camera;
     this.camera.add(this.audioListener);
     this.composer = new Composer(this.scene, this.camera);
@@ -104,7 +105,6 @@ export class App {
       }
     );
 
-    this.collisionsManager = new CollisionsManager(this.scene);
     this.characterManager = new CharacterManager(
       this.collisionsManager,
       this.cameraManager,
