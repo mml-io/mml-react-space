@@ -1,12 +1,11 @@
+import { MGroupElement, MPositionProbeElement } from "@mml-io/mml-react-types";
 import * as React from "react";
 import { useEffect, useRef } from "react";
 
-import { CustomElement } from "../../types/declaration";
-
 const connectedUsers = new Map();
 export default function WallProbe() {
-  const userProbesRef = useRef<CustomElement<any>>();
-  const probeRef = useRef<CustomElement<any>>();
+  const userProbesRef = useRef<MGroupElement>(null);
+  const probeRef = useRef<MPositionProbeElement>(null);
 
   useEffect(() => {
     function getOrCreateUser(

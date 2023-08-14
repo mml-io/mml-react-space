@@ -1,14 +1,14 @@
+import { MLightElement } from "@mml-io/mml-react-types";
 import * as React from "react";
 import { useEffect, useRef } from "react";
 
 import { GroupProps } from "../../types";
-import { CustomElement } from "../../types/declaration";
 
-const POINT_LIGHT_INTENSITY = 5;
+const POINT_LIGHT_INTENSITY = "5";
 
 export default function Lamp(props: GroupProps) {
-  const spotlightRef = useRef<CustomElement<any>>(null);
-  const pointLightRef = useRef<CustomElement<any>>(null);
+  const spotlightRef = useRef<MLightElement>(null);
+  const pointLightRef = useRef<MLightElement>(null);
   const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const switchLight = () => {
@@ -28,7 +28,7 @@ export default function Lamp(props: GroupProps) {
         clearInterval(intervalRef.current);
       }
       if (pointLightRef.current) {
-        pointLightRef.current.setAttribute("intensity", 0);
+        pointLightRef.current.setAttribute("intensity", "0");
       }
     }
   };
@@ -40,7 +40,7 @@ export default function Lamp(props: GroupProps) {
       const light = spotlightRef.current;
 
       if (Math.random() > 0.9) {
-        light.setAttribute("intensity", 0.5 + Math.random() * 0.5);
+        light.setAttribute("intensity", (0.5 + Math.random() * 0.5).toString());
       }
     }, 33);
 

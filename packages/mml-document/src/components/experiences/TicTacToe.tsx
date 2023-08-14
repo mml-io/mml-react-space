@@ -1,7 +1,7 @@
+import { MCubeElement } from "@mml-io/mml-react-types";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { GroupProps } from "../../types";
-import { CustomElement } from "../../types/declaration";
 import { EventHandlerCollection } from "../utilis/EventHandlerCollection";
 
 type Player = "X" | "O";
@@ -37,8 +37,8 @@ export default function TicTacToe(props: GroupProps) {
   const [playerX, setPlayerX] = useState<number | null>(null);
   const [playerO, setPlayerO] = useState<number | null>(null);
   const [board, setBoard] = useState(() => createEmptyBoard());
-  const playerXPad = useRef<CustomElement<any>>(null);
-  const playerOPad = useRef<CustomElement<any>>(null);
+  const playerXPad = useRef<MCubeElement>(null);
+  const playerOPad = useRef<MCubeElement>(null);
 
   // Count the number of X in the board
   const xCount = board.filter((cell) => cell === "X").length;
@@ -248,7 +248,6 @@ export default function TicTacToe(props: GroupProps) {
         alignment="center"
         font-size={80}
         padding={0}
-        collide={false}
       ></m-label>
       <m-cube
         x={-1.5}
@@ -270,7 +269,6 @@ export default function TicTacToe(props: GroupProps) {
         alignment="center"
         font-size={80}
         padding={0}
-        collide={false}
       />
       <m-cube
         x={1.5}

@@ -1,19 +1,19 @@
+import {
+  MCubeElement,
+  MMLCollisionEndEvent,
+  MMLCollisionMoveEvent,
+  MMLCollisionStartEvent,
+} from "@mml-io/mml-react-types";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { GroupProps } from "../../types";
-import { CustomElement } from "../../types/declaration";
 import { hslToHex } from "../utilis/hslToHex";
 
 type ConnectionEvent = CustomEvent<{ connectionId: number }>;
-type CollisionEvent = CustomEvent<
-  PositionAndRotation & { connectionId: number }
->;
 
 type Position = { x: number; y: number; z: number };
-type Rotation = { x: number; y: number; z: number };
-export type PositionAndRotation = {
+export type UserState = {
   position: Position;
-  rotation: Rotation;
 };
 
 type FloorProps = GroupProps & {
@@ -29,24 +29,18 @@ export default function DiscoFloor(props: FloorProps) {
   const { width, depth, ...rest } = props;
   const [dataUri, setDataUri] = useState<string>("");
 
-  const floorRef = useRef<CustomElement<any>>();
-  const connectedUsersRef = useRef(new Map<number, PositionAndRotation>());
+  const floorRef = useRef<MCubeElement>(null);
+  const connectedUsersRef = useRef(new Map<number, UserState>());
 
-  function getOrCreateUser(
-    connectionId: number,
-    position: Position,
-    rotation: Rotation
-  ) {
+  function getOrCreateUser(connectionId: number, position: Position) {
     const user = connectedUsersRef.current.get(connectionId);
     if (user) {
       user.position = position;
-      user.rotation = rotation;
       return user;
     }
 
     const newUser = {
       position,
-      rotation,
     };
     connectedUsersRef.current.set(connectionId, newUser);
     return newUser;
@@ -94,25 +88,17 @@ export default function DiscoFloor(props: FloorProps) {
     if (!floorRef.current) {
       return;
     }
-    function handleCollisionStart(event: CollisionEvent) {
+    function handleCollisionStart(event: MMLCollisionStartEvent) {
       const { connectionId } = event.detail;
-      getOrCreateUser(
-        connectionId,
-        event.detail.position,
-        event.detail.rotation
-      );
+      getOrCreateUser(connectionId, event.detail.position);
     }
 
-    function handleCollisionMove(event: CollisionEvent) {
+    function handleCollisionMove(event: MMLCollisionMoveEvent) {
       const { connectionId } = event.detail;
-      getOrCreateUser(
-        connectionId,
-        event.detail.position,
-        event.detail.rotation
-      );
+      getOrCreateUser(connectionId, event.detail.position);
     }
 
-    function handleCollisionEnd(event: CollisionEvent) {
+    function handleCollisionEnd(event: MMLCollisionEndEvent) {
       const { connectionId } = event.detail;
       connectedUsersRef.current.delete(connectionId);
     }

@@ -1,11 +1,11 @@
+import { MModelElement } from "@mml-io/mml-react-types";
 import React, { useRef, useState } from "react";
 
 import { GroupProps } from "../../types";
-import { CustomElement } from "../../types/declaration";
 
 export default function Dice(props: GroupProps) {
   const [diceResult, setDiceResult] = useState(1);
-  const diceRef = useRef<CustomElement<any>>();
+  const diceRef = useRef<MModelElement>(null);
 
   const rollDice = () => {
     if (!diceRef.current) {
@@ -59,9 +59,9 @@ export default function Dice(props: GroupProps) {
 
     const targetRotation = rollMap[newDiceResult as keyof typeof rollMap];
     const startRotation = {
-      rx: parseFloat(diceRef.current.getAttribute("rx")),
-      ry: parseFloat(diceRef.current.getAttribute("ry")),
-      rz: parseFloat(diceRef.current.getAttribute("rz")),
+      rx: parseFloat(diceRef.current.getAttribute("rx") ?? "0"),
+      ry: parseFloat(diceRef.current.getAttribute("ry") ?? "0"),
+      rz: parseFloat(diceRef.current.getAttribute("rz") ?? "0"),
     };
 
     const animationTime = 400;
@@ -85,12 +85,15 @@ export default function Dice(props: GroupProps) {
         diceRef.current.setAttribute("rx", currentRotation.rx.toString());
         diceRef.current.setAttribute("ry", currentRotation.ry.toString());
         diceRef.current.setAttribute("rz", currentRotation.rz.toString());
-        diceRef.current.setAttribute("y", Math.cos(t * 2.0 - 0.5) * 2.5);
+        diceRef.current.setAttribute(
+          "y",
+          (Math.cos(t * 2.0 - 0.5) * 2.5).toString()
+        );
       } else {
         diceRef.current.setAttribute("rx", targetRotation.rx.toString());
         diceRef.current.setAttribute("ry", targetRotation.ry.toString());
         diceRef.current.setAttribute("rz", targetRotation.rz.toString());
-        diceRef.current.setAttribute("y", props.y);
+        diceRef.current.setAttribute("y", props.y?.toString() ?? "1");
         clearInterval(intervalId);
       }
     }, interval);
@@ -102,7 +105,6 @@ export default function Dice(props: GroupProps) {
       onClick={rollDice}
       id="dice"
       collide="true"
-      collideable="true"
       src="/assets/dice.glb"
       sx="1"
       sy="1"

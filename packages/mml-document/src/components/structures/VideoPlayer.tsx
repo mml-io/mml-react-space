@@ -95,7 +95,6 @@ export default function VideoPlayer(props: VideoProps) {
         {controls && (
           <m-group y={-height / 2 - height * 0.18}>
             <m-label
-              onclick="restart(event.currentTarget.parentNode)"
               content="restart"
               x={width / 5 + width * 0.18 + width * 0.02}
               font-size={width * 4}
@@ -106,7 +105,6 @@ export default function VideoPlayer(props: VideoProps) {
               onClick={restart}
             ></m-label>
             <m-label
-              onclick="pause(event.currentTarget.parentNode)"
               content="pause"
               x={-width / 5 - width * 0.18 - width * 0.02}
               font-size={width * 4}
@@ -117,7 +115,6 @@ export default function VideoPlayer(props: VideoProps) {
               onClick={pause}
             ></m-label>
             <m-label
-              onclick="unpause(event.currentTarget.parentNode)"
               content="unpause"
               x={(-width / 5) * 2 + width * 0.18 + width * 0.02}
               font-size={width * 4}
@@ -128,7 +125,6 @@ export default function VideoPlayer(props: VideoProps) {
               onClick={unpause}
             ></m-label>
             <m-label
-              onclick="resume(event.currentTarget.parentNode)"
               content="resume"
               x={(width / 5) * 2 - width * 0.18 - width * 0.02}
               font-size={width * 4}
@@ -139,7 +135,6 @@ export default function VideoPlayer(props: VideoProps) {
               onClick={resume}
             ></m-label>
             <m-label
-              onclick="toggleEnabled(event.currentTarget.parentNode)"
               content="enable"
               x="0"
               font-size={width * 4}
