@@ -13,7 +13,7 @@ function App() {
       <GroundFloor />
       <FirstFloor />
       <SecondFloor />
-      <Elevator levels={3} x={-23.9} z={3.9} ry={90} />
+      <Elevator levels={3} x={-23.9} z={2} ry={90} />
     </m-group>
   );
 }

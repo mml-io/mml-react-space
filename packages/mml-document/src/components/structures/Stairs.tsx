@@ -68,7 +68,6 @@ export default function Stairs({
           width={stair.width}
           height={stair.height}
           depth={stair.depth}
-          collide
         />
       ))}
     </m-group>

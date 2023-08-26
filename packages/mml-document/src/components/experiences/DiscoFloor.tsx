@@ -7,7 +7,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { GroupProps } from "../../types";
-import { hslToHex } from "../utilis/hslToHex";
+import { hslToHex } from "../utils/hslToHex";
 
 type ConnectionEvent = CustomEvent<{ connectionId: number }>;
 
@@ -67,11 +67,11 @@ export default function DiscoFloor(props: FloorProps) {
       return;
     }
 
-    const fillHue = ((Date.now() % 4000) / 4000) * 360;
+    const fillHue = ((Date.now() % 20000) / 20000) * 360;
     ctx.fillStyle = hslToHex(fillHue, 1, 0.5);
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    const presenceHue = (((Date.now() + 2000) % 4000) / 4000) * 360;
+    const presenceHue = (((Date.now() + 10000) % 20000) / 20000) * 360;
     ctx.fillStyle = hslToHex(presenceHue, 1, 0.5);
     for (const [, user] of connectedUsersRef.current) {
       ctx.fillRect(
@@ -143,8 +143,6 @@ export default function DiscoFloor(props: FloorProps) {
         depth={depth}
         height={0.1}
         opacity={props.visible ? 1 : 0}
-        x={0}
-        z={0}
         y={-0.05}
         collision-interval={100}
       />
@@ -153,7 +151,7 @@ export default function DiscoFloor(props: FloorProps) {
         src={dataUri}
         rx={90}
         y={0.01}
-        collide="false"
+        collide={false}
         width={width}
         height={depth}
       ></m-image>

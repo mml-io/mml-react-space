@@ -36,10 +36,9 @@ export default function Ceiling(props: CeilingProps) {
       <m-cube
         color={color}
         depth={depth}
-        height="0.1"
+        height={0.1}
         width={width}
         y={y}
-        collide
         {...rest}
       />
     );
@@ -66,44 +65,38 @@ export default function Ceiling(props: CeilingProps) {
     <m-group {...rest}>
       {/* North cube */}
       <m-cube
-        collide
         color={color}
         width={width}
         depth={northWallDepth}
-        height="0.1"
-        x={0}
+        height={0.1}
         z={-depth / 2 + northWallDepth / 2}
         y={y}
       />
       {/* South cube */}
       <m-cube
-        collide
         color={color}
         width={width}
         depth={southWallDepth}
-        height="0.1"
-        x={0}
+        height={0.1}
         z={depth / 2 - southWallDepth / 2}
         y={y}
       />
       {/* West cube */}
       <m-cube
-        collide
         color={color}
         width={westWallWidth}
         depth={openingDepth}
-        height="0.1"
+        height={0.1}
         x={-width / 2 + westWallWidth / 2}
         z={openingPosition.z}
         y={y}
       />
       {/* East cube */}
       <m-cube
-        collide
         color={color}
         width={eastWallWidth}
         depth={openingDepth}
-        height="0.1"
+        height={0.1}
         x={width / 2 - eastWallWidth / 2}
         z={openingPosition.z}
         y={y}

@@ -31,14 +31,7 @@ export default function Floor(props: CeilingProps) {
 
   if (!hasOpening) {
     return (
-      <m-plane
-        rx={-90}
-        color={color}
-        height={depth}
-        width={width}
-        collide
-        {...rest}
-      />
+      <m-plane rx={-90} color={color} height={depth} width={width} {...rest} />
     );
   }
 
@@ -63,25 +56,20 @@ export default function Floor(props: CeilingProps) {
     <m-group rx={-90} {...rest}>
       {/* North cube */}
       <m-plane
-        collide
         color={color}
         width={width}
         height={northWallDepth}
-        x={0}
         y={-depth / 2 + northWallDepth / 2}
       />
       {/* South cube */}
       <m-plane
-        collide
         color={color}
         width={width}
         height={southWallDepth}
-        x={0}
         y={depth / 2 - southWallDepth / 2}
       />
       {/* West cube */}
       <m-plane
-        collide
         color={color}
         width={westWallWidth}
         height={openingDepth}
@@ -90,7 +78,6 @@ export default function Floor(props: CeilingProps) {
       />
       {/* East cube */}
       <m-plane
-        collide
         color={color}
         width={eastWallWidth}
         height={openingDepth}

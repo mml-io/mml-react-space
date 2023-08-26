@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { GroupProps } from "../../types";
-import SimpleSwitch from "../utilis/SimpleSwitch";
+import SimpleSwitch from "../utils/SimpleSwitch";
 
 type ImageProps = GroupProps & {
   src: string | string[];
@@ -14,9 +14,9 @@ type ImageProps = GroupProps & {
 
 export default function MMLImage({
   src,
-  width = 0,
-  height = 0,
-  buttonsPosition = 0,
+  width,
+  height,
+  buttonsPosition,
   slideShow,
   slideshowTime = 2000,
   ...rest
@@ -50,9 +50,9 @@ export default function MMLImage({
     <m-group {...rest}>
       <m-image src={currentImage} width={width} height={height} />
       {isCarousel && !slideShow && (
-        <m-group z={0.01} y={buttonsPosition || -(height ?? 1) / 2 - 0.1}>
-          <SimpleSwitch x={-0.05} onClick={() => handleClick(true)} />
-          <SimpleSwitch x={0.05} onClick={() => handleClick()} />
+        <m-group z={0.01} y={buttonsPosition ?? -(height ?? 1) - 0.25}>
+          <SimpleSwitch x={-0.2} onClick={() => handleClick(true)} />
+          <SimpleSwitch x={0.2} onClick={() => handleClick()} />
         </m-group>
       )}
     </m-group>

@@ -56,28 +56,25 @@ export default function Wall(props: WallProps) {
       >
         <m-cube
           color={color}
-          depth="0.3"
+          depth={0.3}
           height={height ?? 6}
           x={(doorPosition - doorWidth / 2) / 2}
           width={doorPosition - doorWidth / 2}
-          collide={true}
         />
         <m-cube
           color={color}
-          depth="0.3"
+          depth={0.3}
           height={height ?? 6}
           x={(adjustedWidth + doorPosition + doorWidth / 2) / 2}
           width={adjustedWidth - doorPosition - doorWidth / 2}
-          collide={true}
         />
         <m-cube
           color={color}
-          depth="0.3"
+          depth={0.3}
           x={doorPosition}
           width={doorWidth}
           height={height - doorHeight}
           y={doorHeight / 2}
-          collide={true}
         />
         {children}
       </m-group>
@@ -107,7 +104,6 @@ export default function Wall(props: WallProps) {
 
   return (
     <m-cube
-      collide={true}
       color={color}
       depth={depth}
       height={height}

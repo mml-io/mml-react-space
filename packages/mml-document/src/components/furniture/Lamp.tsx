@@ -1,60 +1,14 @@
-import { MLightElement } from "@mml-io/mml-react-types";
 import * as React from "react";
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 
 import { GroupProps } from "../../types";
 
-const POINT_LIGHT_INTENSITY = "5";
-
 export default function Lamp(props: GroupProps) {
-  const spotlightRef = useRef<MLightElement>(null);
-  const pointLightRef = useRef<MLightElement>(null);
-  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [lightOn, setLightOn] = React.useState(true);
 
-  const switchLight = () => {
-    if (!spotlightRef.current) return;
-
-    const light = spotlightRef.current;
-
-    if (light.getAttribute("intensity") === "0") {
-      light.setAttribute("intensity", "1");
-      intervalRef.current = lightFlickeringInterval();
-      if (pointLightRef.current) {
-        pointLightRef.current.setAttribute("intensity", POINT_LIGHT_INTENSITY);
-      }
-    } else {
-      light.setAttribute("intensity", "0");
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-      if (pointLightRef.current) {
-        pointLightRef.current.setAttribute("intensity", "0");
-      }
-    }
-  };
-
-  const lightFlickeringInterval = () =>
-    setInterval(() => {
-      if (!spotlightRef.current) return;
-
-      const light = spotlightRef.current;
-
-      if (Math.random() > 0.9) {
-        light.setAttribute("intensity", (0.5 + Math.random() * 0.5).toString());
-      }
-    }, 33);
-
-  useEffect(() => {
-    if (!spotlightRef.current) return;
-
-    intervalRef.current = lightFlickeringInterval();
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, []);
+  const switchLight = useCallback(() => {
+    setLightOn(!lightOn);
+  }, [lightOn]);
 
   return (
     <m-group {...props}>
@@ -63,13 +17,13 @@ export default function Lamp(props: GroupProps) {
           width={0.4}
           depth={0.4}
           height={0.032}
-          color="black"
+          color="#999"
           y={-0.28}
           z={-0.2}
         />
         <m-cube
-          width={0.04}
-          depth={0.04}
+          width={0.1}
+          depth={0.1}
           height={0.032}
           color="red"
           y={-0.244}
@@ -94,23 +48,18 @@ export default function Lamp(props: GroupProps) {
         />
         <m-group y={0.34} z={-0.172}>
           <m-sphere radius={0.08} color="yellow" />
-          <m-light
-            type="spotlight"
-            z={-0.08}
-            rx={90}
-            intensity={0.08}
-            color="yellow"
-            ref={spotlightRef}
-          />
-          <m-light
-            type="point"
-            z={-0.2}
-            rx={-90}
-            intensity={POINT_LIGHT_INTENSITY}
-            distance={0.8}
-            color="yellow"
-            ref={pointLightRef}
-          />
+          {lightOn && (
+            <>
+              <m-light
+                type="spotlight"
+                z={-0.08}
+                rx={90}
+                intensity={0.5}
+                color="yellow"
+              />
+              <m-light type="point" z={-0.08} intensity={0.25} color="yellow" />
+            </>
+          )}
         </m-group>
         <m-group id="shade" y={0.36} z={-0.24} rx={-90}>
           <m-cube
@@ -119,7 +68,6 @@ export default function Lamp(props: GroupProps) {
             height={0.4}
             depth={0.004}
             z={0.2}
-            ry={0}
             color="white"
           />
           <m-cube
