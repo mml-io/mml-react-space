@@ -1,7 +1,11 @@
+import {
+  MCubeElement,
+  MMLCollisionEndEvent,
+  MMLCollisionStartEvent,
+} from "@mml-io/mml-react-types";
 import React, { useEffect, useState } from "react";
 
 import { GroupProps } from "../../types";
-import { CustomElement } from "../../types/declaration";
 
 type SlidingDoors = GroupProps & {
   width: number;
@@ -43,6 +47,7 @@ export default function SlidingDoors(props: SlidingDoors) {
         x={-props.width / 4 - 0.001 - (currentRatioOpen * props.width) / 2}
         y={0}
         z={0.5}
+        collision-interval={500}
         color={props.color || "rgba(255, 255, 255, 0.5)"}
       />
       <m-cube
@@ -65,17 +70,20 @@ export default function SlidingDoors(props: SlidingDoors) {
         y={-props.height / 2 + 0.01}
         z={0}
         collision-interval="500"
-        ref={(el: CustomElement<any>) => {
+        ref={(el: MCubeElement) => {
           if (!el) {
             return;
           }
-          el.addEventListener("collisionstart", (event: CustomEvent) => {
-            const { connectionId } = event.detail;
-            setCollidingUsers(
-              new Set(Array.from(collidingUsers).concat([connectionId]))
-            );
-          });
-          el.addEventListener("collisionend", (event: CustomEvent) => {
+          el.addEventListener(
+            "collisionstart",
+            (event: MMLCollisionStartEvent) => {
+              const { connectionId } = event.detail;
+              setCollidingUsers(
+                new Set(Array.from(collidingUsers).concat([connectionId]))
+              );
+            }
+          );
+          el.addEventListener("collisionend", (event: MMLCollisionEndEvent) => {
             const { connectionId } = event.detail;
             const newSet = new Set(Array.from(collidingUsers));
             newSet.delete(connectionId);

@@ -52,7 +52,6 @@ export default function Wall(props: WallProps) {
         y={height ? height / 2 : 3}
         x={!ry ? -adjustedWidth / 2 : x}
         z={ry !== 0 && !z ? -adjustedWidth / 2 : z}
-        collide={true}
         {...rest}
       >
         <m-cube

@@ -150,18 +150,6 @@ export default function BasicRoom(props: BasicRoomProps) {
           {...wallConfig?.south}
         />
       )}
-      {/*<m-light*/}
-      {/*  type="point"*/}
-      {/*  ry="0"*/}
-      {/*  rx="0"*/}
-      {/*  rz="0"*/}
-      {/*  x="0"*/}
-      {/*  y="3.5"*/}
-      {/*  z="0"*/}
-      {/*  intensity="1"*/}
-      {/*  distance="20"*/}
-      {/*  color={"white"}*/}
-      {/*/>*/}
       {children}
     </m-group>
   );

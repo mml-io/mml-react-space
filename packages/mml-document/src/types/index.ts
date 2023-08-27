@@ -1,6 +1,6 @@
+import { MGroupAttributes, MGroupElement } from "@mml-io/mml-react-types";
 import * as React from "react";
 
-import { CustomElement } from "./declaration";
 import {
   CeilingConfig,
   FloorConfig,
@@ -25,11 +25,9 @@ export type Rotation = {
   rz?: string | number;
 };
 
-export type GroupProps = Position &
-  Scale &
-  Rotation & {
-    forwardRef?: React.Ref<CustomElement<any> | undefined>;
-  };
+export type GroupProps = MGroupAttributes & {
+  forwardRef?: React.Ref<MGroupElement>;
+};
 
 export type RoomProps = GroupProps & {
   children?: React.ReactNode;

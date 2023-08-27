@@ -1,8 +1,8 @@
+import { MGroupElement } from "@mml-io/mml-react-types";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import BasicRoom from "./BasicRoom";
 import { GroupProps } from "../../types";
-import { CustomElement } from "../../types/declaration";
 import SimpleSwitch from "../utilis/SimpleSwitch";
 
 type ElevatorProps = GroupProps & {
@@ -24,7 +24,7 @@ export default function Elevator(props: ElevatorProps) {
   const currentFloor = useRef(0);
   const yPos = useRef(0);
   const [isMoving, setIsMoving] = useState(false);
-  const platformRef = useRef<CustomElement<any>>(null);
+  const platformRef = useRef<MGroupElement>(null);
   const intervalRef = useRef<ReturnType<typeof setTimeout>>();
 
   const goUp = useCallback(() => {
