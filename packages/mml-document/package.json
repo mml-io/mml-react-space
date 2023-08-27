@@ -9,7 +9,7 @@
     "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "dependencies": {
-    "@mml-io/mml-react-types": "^0.0.0-experimental-d10f2a9-20230814",
+    "@mml-io/mml-react-types": "0.6.1",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
