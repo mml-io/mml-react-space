@@ -1,111 +1,181 @@
-import { MGroupElement, MPositionProbeElement } from "@mml-io/mml-react-types";
+import {
+  MMLPositionLeaveEvent,
+  MPositionProbeElement,
+} from "@mml-io/mml-react-types";
 import * as React from "react";
-import { useEffect, useRef } from "react";
 
-const connectedUsers = new Map();
+const generateRandomColor = (): string => {
+  return `#${Math.floor(Math.random() * 0xffffff)
+    .toString(16)
+    .padStart(6, "0")}`;
+};
+
 export default function WallProbe() {
-  const userProbesRef = useRef<MGroupElement>(null);
-  const probeRef = useRef<MPositionProbeElement>(null);
+  const [connectedUsers, setConnectedUsers] = React.useState<{
+    [connectionId: string]: {
+      position: { x: number; y: number; z: number };
+      rotation: { x: number; y: number; z: number };
+      lastPosition: { x: number; y: number; z: number };
+      lastRotation: { x: number; y: number; z: number };
+      time: number;
+      color: string;
+    };
+  }>({});
 
-  useEffect(() => {
-    function getOrCreateUser(
-      connectionId: number,
-      position: { x: number; y: number; z: number },
-      rotation: { x: number; y: number; z: number }
-    ) {
-      const user = connectedUsers.get(connectionId);
+  const probeRef = React.useRef<MPositionProbeElement>(null);
+
+  const interval = 200;
+
+  const handlePositionEnter = React.useCallback((event: any) => {
+    const { connectionId, elementRelative } = event.detail;
+    setConnectedUsers((prevConnectedUsers) => {
+      const user = prevConnectedUsers[connectionId];
       if (user) {
-        user.position = position;
-        user.rotation = rotation;
-        return user;
+        return {
+          ...prevConnectedUsers,
+          [connectionId]: {
+            position: elementRelative.position,
+            rotation: elementRelative.rotation,
+            lastPosition: user.position,
+            lastRotation: user.rotation,
+            time: document.timeline.currentTime as number,
+            color: user.color,
+          },
+        };
       }
-      const userCube = document.createElement("m-cube");
-
-      userCube.setAttribute("collide", "false");
-      userCube.setAttribute("width", "0.25");
-      userCube.setAttribute("height", "0.25");
-      userCube.setAttribute("depth", "0.25");
-      userCube.setAttribute(
-        "color",
-        `#${Math.floor(Math.random() * 0xffffff)
-          .toString(16)
-          .padStart(6, "0")}`
-      );
-
-      userProbesRef.current?.appendChild(userCube);
-
-      const newUser = {
-        cube: userCube,
-        position,
-        rotation,
+      return {
+        ...prevConnectedUsers,
+        [connectionId]: {
+          position: elementRelative.position,
+          rotation: elementRelative.rotation,
+          lastPosition: elementRelative.position,
+          lastRotation: elementRelative.rotation,
+          time: document.timeline.currentTime as number,
+          color: prevConnectedUsers[connectionId]
+            ? prevConnectedUsers[connectionId].color
+            : generateRandomColor(),
+        },
       };
+    });
+  }, []);
 
-      connectedUsers.set(connectionId, newUser);
-      return newUser;
-    }
+  const handlePositionMove = handlePositionEnter; // Reuse for simplicity.
 
-    function clearUser(connectionId: number) {
-      const user = connectedUsers.get(connectionId);
-      if (!user) return;
-      user.cube.remove();
-      connectedUsers.delete(connectionId);
-    }
+  const handlePositionLeave = React.useCallback(
+    (event: MMLPositionLeaveEvent) => {
+      const { connectionId } = event.detail;
+      setConnectedUsers((prevConnectedUsers) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [connectionId]: user, ...remainingUsers } = prevConnectedUsers;
+        return remainingUsers;
+      });
+    },
+    []
+  );
 
-    function setCubePosition(
-      connectionId: number,
-      position: { x: number; y: number; z: number },
-      rotation: { x: number; y: number; z: number }
-    ) {
-      const user = getOrCreateUser(connectionId, position, rotation);
-      user.cube.setAttribute("x", position.x);
-      user.cube.setAttribute("y", position.y + 2);
-      user.cube.setAttribute("z", position.z);
-      user.cube.setAttribute("rx", rotation.x);
-      user.cube.setAttribute("ry", rotation.y);
-      user.cube.setAttribute("rz", rotation.z);
-    }
+  const handleDisconnect = handlePositionLeave; // Reuse for simplicity.
 
-    // At the moment there seems to be no way to attach an event the react way
+  React.useEffect(() => {
     const userProbe = probeRef.current;
-    userProbe?.addEventListener("positionenter", (event: any) => {
-      const { connectionId, elementRelative } = event.detail;
-      setCubePosition(
-        connectionId,
-        elementRelative.position,
-        elementRelative.rotation
-      );
-    });
 
-    userProbe?.addEventListener("positionmove", (event: any) => {
-      const { connectionId, elementRelative } = event.detail;
-      setCubePosition(
-        connectionId,
-        elementRelative.position,
-        elementRelative.rotation
-      );
-    });
-
-    userProbe?.addEventListener("positionleave", (event: any) => {
-      const { connectionId } = event.detail;
-      clearUser(connectionId);
-    });
-
-    function handleDisconnect(event: any) {
-      const { connectionId } = event.detail;
-      clearUser(connectionId);
-    }
-
-    window.addEventListener("disconnected", handleDisconnect);
+    userProbe?.addEventListener("positionenter", handlePositionEnter);
+    userProbe?.addEventListener("positionmove", handlePositionMove);
+    userProbe?.addEventListener("positionleave", handlePositionLeave);
+    (window as any).addEventListener("disconnected", handleDisconnect);
 
     return () => {
-      window.removeEventListener("disconnected", handleDisconnect);
+      userProbe?.removeEventListener("positionenter", handlePositionEnter);
+      userProbe?.removeEventListener("positionmove", handlePositionMove);
+      userProbe?.removeEventListener("positionleave", handlePositionLeave);
+      (window as any).removeEventListener("disconnected", handleDisconnect);
     };
-  }, []);
+  }, [
+    handlePositionEnter,
+    handlePositionMove,
+    handlePositionLeave,
+    handleDisconnect,
+    probeRef,
+  ]);
 
   return (
     <m-group y={-5.5}>
-      <m-position-probe ref={probeRef} range="8" id="my-probe" interval="100" />
-      <m-group ref={userProbesRef} id="user-presence-holder" />
+      <m-position-probe
+        ref={probeRef}
+        range={8}
+        id="my-probe"
+        interval={interval}
+      />
+      <m-group id="user-presence-holder">
+        {Object.entries(connectedUsers).map(([connectionId, user]) => (
+          <m-group
+            key={connectionId}
+            /*  The rx and rz attributes are unlikely to change so they do not need to be animated */
+            rx={user.rotation.x}
+            rz={user.rotation.z}
+            y={3}
+          >
+            <m-attr-anim
+              attr={"x"}
+              start-time={user.time}
+              duration={interval}
+              loop={false}
+              start={user.lastPosition.x.toString(10)}
+              end={user.position.x.toString(10)}
+            />
+            <m-attr-anim
+              attr={"y"}
+              start-time={user.time}
+              duration={interval}
+              loop={false}
+              start={(user.lastPosition.y + 2).toString(10)}
+              end={(user.position.y + 2).toString(10)}
+            />
+            <m-attr-anim
+              attr={"z"}
+              start-time={user.time}
+              duration={interval}
+              loop={false}
+              start={user.lastPosition.z.toString(10)}
+              end={user.position.z.toString(10)}
+            />
+            <m-attr-anim
+              attr={"ry"}
+              start-time={user.time}
+              duration={interval}
+              loop={false}
+              start={user.lastRotation.y.toString(10)}
+              end={user.rotation.y.toString(10)}
+            />
+            <m-cube
+              color={user.color}
+              collide={false}
+              width={0.1}
+              height={0.1}
+              depth={0.5}
+            />
+            <m-cube
+              color={user.color}
+              collide={false}
+              x={-0.055}
+              z={0.25}
+              width={0.1}
+              height={0.1}
+              depth={0.25}
+              ry={45}
+            />
+            <m-cube
+              color={user.color}
+              collide={false}
+              x={0.055}
+              z={0.25}
+              width={0.1}
+              height={0.1}
+              depth={0.25}
+              ry={-45}
+            />
+          </m-group>
+        ))}
+      </m-group>
     </m-group>
   );
 }

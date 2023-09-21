@@ -6,6 +6,7 @@ import Duck from "../components/furniture/Duck";
 import BasicRoom, { WallConfig } from "../components/structures/BasicRoom";
 import Level from "../components/structures/Level";
 import Stairs from "../components/structures/Stairs";
+import Wall from "../components/structures/Wall";
 import WallWithWindow from "../components/structures/WallWithWindow";
 import LongRoom from "../rooms/museum/LongRoom";
 import SideRoom from "../rooms/museum/SideRoom";
@@ -61,35 +62,35 @@ export default function FirstFloor(props: GroupProps) {
         wallConfig={longoRoomDoorConfig}
         ceilingConfig={{
           hasOpening: true,
-          openingDepth: 2,
+          openingDepth: 3,
           openingWidth: 3,
           openingPosition: {
             x: -23.9,
-            z: 3.9,
+            z: 2,
           },
         }}
         floorConfig={{
-          color: "brown",
+          color: "#9999DD",
           hasOpening: true,
-          openingDepth: 2,
+          openingDepth: 3,
           openingWidth: 3,
           openingPosition: {
             x: 23.9,
-            z: 3.9,
+            z: 2,
           },
         }}
       >
         <WallWithWindow z={5} y={2} width={17} />
         <WallWithWindow x={17} z={5} y={2} width={17} />
         <WallWithWindow x={-17} z={5} y={2} width={17} />
-        <WallWithWindow x={-25.5} ry={90} y={2} width={10.3} />
+        <Wall height={4} x={-25.5} ry={90} y={2} width={10} />
         <WallWithWindow x={25.5} ry={90} y={2} width={10.3} />
       </LongRoom>
       <SideRoom
         z={-13}
         x={-17}
         wallConfig={sideRoomWallConfigWest}
-        floorConfig={{ color: "brown" }}
+        floorConfig={{ color: "#9999DD" }}
       >
         <TicTacToe y={1.5} ry={-90} x={8.33} />
       </SideRoom>
@@ -97,15 +98,15 @@ export default function FirstFloor(props: GroupProps) {
         z={-13}
         x={17}
         wallConfig={sideRoomWallConfigEast}
-        floorConfig={{ color: "brown" }}
+        floorConfig={{ color: "#9999DD" }}
       >
-        <Dice sx={0.3} sy={0.3} sz={0.3} y={0.35} x={-1} z={-2} />
-        <Dice sx={0.3} sy={0.3} sz={0.3} y={0.35} x={3} />
-        <Dice sx={0.3} sy={0.3} sz={0.3} y={0.35} x={2} z={6} />
-        <Dice sx={0.3} sy={0.3} sz={0.3} y={0.35} x={-4} z={-3} />
-        <Dice sx={0.3} sy={0.3} sz={0.3} y={0.35} x={-6} z={4.5} />
-        <Dice sx={0.3} sy={0.3} sz={0.3} y={0.35} x={2} z={-5} />
-        <Dice sx={0.3} sy={0.3} sz={0.3} y={0.35} x={-6} z={-5} />
+        <Dice sx={0.5} sy={0.5} sz={0.5} y={0.05} x={-1} z={-2} />
+        <Dice sx={0.5} sy={0.5} sz={0.5} y={0.05} x={3} />
+        <Dice sx={0.5} sy={0.5} sz={0.5} y={0.05} x={2} z={6} />
+        <Dice sx={0.5} sy={0.5} sz={0.5} y={0.05} x={-4} z={-3} />
+        <Dice sx={0.5} sy={0.5} sz={0.5} y={0.05} x={-6} z={4.5} />
+        <Dice sx={0.5} sy={0.5} sz={0.5} y={0.05} x={2} z={-5} />
+        <Dice sx={0.5} sy={0.5} sz={0.5} y={0.05} x={-6} z={-5} />
       </SideRoom>
       <SideRoom
         z={-13}
@@ -114,12 +115,11 @@ export default function FirstFloor(props: GroupProps) {
           east: { invisible: true },
           west: { invisible: true },
         }}
-        floorConfig={{ color: "brown" }}
+        floorConfig={{ color: "#9999DD" }}
       >
         <Duck />
       </SideRoom>
       <BasicRoom
-        x={0}
         z={-23}
         width={17}
         depth={4}
@@ -138,7 +138,7 @@ export default function FirstFloor(props: GroupProps) {
           south: { hasDoor: true },
           west: { hasWindow: true },
         }}
-        floorConfig={{ color: "brown" }}
+        floorConfig={{ color: "#9999DD" }}
         hasCeiling
       />
       <BasicRoom
@@ -152,11 +152,10 @@ export default function FirstFloor(props: GroupProps) {
           south: { hasDoor: true },
           east: { hasWindow: true },
         }}
-        floorConfig={{ color: "brown" }}
+        floorConfig={{ color: "#9999DD" }}
         hasCeiling
       />
       <BasicRoom
-        x={0}
         z={-30}
         width={51}
         depth={10}
@@ -165,7 +164,7 @@ export default function FirstFloor(props: GroupProps) {
           north: { invisible: true },
         }}
         floorConfig={{
-          color: "brown",
+          color: "#9999DD",
           hasOpening: true,
           openingDepth: 2,
           openingWidth: 5,
@@ -184,7 +183,7 @@ export default function FirstFloor(props: GroupProps) {
       >
         <WallWithWindow x={-12.6} width={25.5} y={2} z={-5} />
         <WallWithWindow x={12.6} width={25.5} y={2} z={-5} />
-        <Stairs x={0} z={4} stairDepth={2} totalHeight={4} ry={90} />
+        <Stairs z={4} stairDepth={2} totalHeight={4} ry={90} />
       </BasicRoom>
     </Level>
   );

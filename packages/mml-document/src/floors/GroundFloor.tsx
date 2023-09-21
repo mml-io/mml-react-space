@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import WallProbe from "../components/experiences/WallProbe";
+import AutomaticDoors from "../components/structures/AutomaticDoors";
 import BasicRoom, { WallConfig } from "../components/structures/BasicRoom";
 import Image from "../components/structures/Image";
 import Level from "../components/structures/Level";
-import SlidingDoors from "../components/structures/SlidingDoors";
 import Stairs from "../components/structures/Stairs";
 import VideoPlayer from "../components/structures/VideoPlayer";
 import Wall from "../components/structures/Wall";
@@ -37,19 +37,19 @@ export default function GroundFloor(props: GroupProps) {
   return (
     <Level {...props}>
       <LongRoom
-        floorConfig={{ color: "#777777" }}
+        floorConfig={{ color: "#CCC" }}
         wallConfig={longoRoomDoorConfig}
         ceilingConfig={{
           hasOpening: true,
-          openingDepth: 2,
+          openingDepth: 3,
           openingWidth: 3,
           openingPosition: {
             x: -23.9,
-            z: 3.9,
+            z: 2,
           },
         }}
       >
-        <SlidingDoors width={3} height={2.5} z={4.5} y={1.25} color="brown" />
+        <AutomaticDoors width={3} height={2.5} z={5} y={1.25} color="#CCC" />
         <Image
           y={2}
           height={2}
@@ -72,21 +72,20 @@ export default function GroundFloor(props: GroupProps) {
         x={-17}
         wallConfig={sideRoomWallConfig}
         floorConfig={{
-          color: "#777777",
+          color: "#CCC",
         }}
       >
-        <Wall height={3.5} width={10} x={0} color="red">
+        <Wall height={3.5} width={10} color="red">
           <WallProbe />
         </Wall>
       </SideRoom>
       <BasicRoom
-        x={0}
         z={-15}
         width={17}
         depth={20}
         wallConfig={{ south: { invisible: true } }}
         hasCeiling={true}
-        floorConfig={{ color: "#777777" }}
+        floorConfig={{ color: "#CCC" }}
         ceilingConfig={{
           hasOpening: true,
           openingWidth: 17,
@@ -97,7 +96,6 @@ export default function GroundFloor(props: GroupProps) {
         <Image
           y={2}
           height={2}
-          z={0}
           ry={90}
           x={-8.32}
           src="https://th.bing.com/th/id/OIG.AaAM6NrmDfvCZtGUQegp?pid=ImgGn"
@@ -105,7 +103,6 @@ export default function GroundFloor(props: GroupProps) {
         <Image
           y={2}
           height={2}
-          z={0}
           ry={-90}
           x={8.32}
           src="https://th.bing.com/th/id/OIG.3BWxbypQ_qfrmNHcl0HK?pid=ImgGn"
@@ -116,18 +113,10 @@ export default function GroundFloor(props: GroupProps) {
           numStairs={6}
           stairDepth={4}
           ry={180}
-          x={0}
           z={-3.25}
           filled
         />
-        <m-cube
-          width={5}
-          depth={4}
-          height={0.35}
-          z={-8}
-          y={1.825}
-          collide={true}
-        />
+        <m-cube width={5} depth={4} height={0.35} z={-8} y={1.825} />
         <Stairs
           stairDepth={3.2}
           totalWidth={5.8}
@@ -152,10 +141,10 @@ export default function GroundFloor(props: GroupProps) {
         x={17}
         wallConfig={sideRoomWallConfig}
         floorConfig={{
-          color: "#777777",
+          color: "#CCC",
         }}
       >
-        <Wall height={3.5} width={10} x={0} color="yellow" />
+        <Wall height={3.5} width={10} color="yellow" />
         <VideoPlayer
           z={0.16}
           width={4}
@@ -173,7 +162,7 @@ export default function GroundFloor(props: GroupProps) {
         hasCeiling={true}
         wallConfig={{ south: { hasDoor: true }, east: { hasDoor: true } }}
         floorConfig={{
-          color: "#777777",
+          color: "#CCC",
         }}
       />
       {/* Small room northwest 2 */}
@@ -189,12 +178,11 @@ export default function GroundFloor(props: GroupProps) {
           west: { invisible: true },
         }}
         floorConfig={{
-          color: "#777777",
+          color: "#CCC",
         }}
       />
       {/* Small room north */}
       <Disco
-        x={0}
         z={-30}
         wallConfig={{
           south: { invisible: true },
@@ -202,7 +190,7 @@ export default function GroundFloor(props: GroupProps) {
           west: { invisible: true },
         }}
         floorConfig={{
-          color: "#777777",
+          color: "#CCC",
         }}
       />
       {/* Small room northeast */}
@@ -217,7 +205,7 @@ export default function GroundFloor(props: GroupProps) {
           south: { hasDoor: true },
         }}
         floorConfig={{
-          color: "#777777",
+          color: "#CCC",
         }}
       />
     </Level>

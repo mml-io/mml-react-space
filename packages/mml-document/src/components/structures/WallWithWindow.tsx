@@ -52,43 +52,35 @@ export default function WallWithWindow(props: WallProps) {
     <m-group {...rest}>
       {/* North cube */}
       <m-cube
-        collide
         color={color}
         width={width}
         depth={depth}
         height={topWallHeight}
-        x={0}
         y={-height / 2 + topWallHeight / 2}
       />
       {/* South cube */}
       <m-cube
-        collide
         color={color}
         width={width}
         depth={depth}
         height={bottomWallHeight}
-        x={0}
         y={height / 2 - bottomWallHeight / 2}
       />
       {/* West cube */}
       <m-cube
-        collide
         color={color}
         width={leftWallWidth}
         depth={depth}
         height={height}
         x={-width / 2 + leftWallWidth / 2}
-        y={0}
       />
       {/* East cube */}
       <m-cube
-        collide
         color={color}
         width={rightWallWidth}
         depth={depth}
         height={height}
         x={width / 2 - rightWallWidth / 2}
-        y={0}
       />
       {children}
     </m-group>

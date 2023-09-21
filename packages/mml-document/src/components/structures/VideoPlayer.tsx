@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useState } from "react";
 
 import { GroupProps } from "../../types";
 
@@ -13,9 +13,6 @@ type VideoProps = {
 } & GroupProps;
 
 export default function VideoPlayer(props: VideoProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const id = useMemo(() => Math.random().toString(36).substr(2, 9), []);
-
   const {
     src,
     width = 3,
@@ -26,57 +23,37 @@ export default function VideoPlayer(props: VideoProps) {
     ...rest
   } = props;
 
-  function restart() {
-    const video = videoRef.current;
+  const [enabled, setEnabled] = useState(true);
+  const [startTime, setStartTime] = useState(0);
+  const [pauseTime, setPauseTime] = useState<number | null>(null);
 
-    video?.setAttribute(
-      "pause-time",
-      (document.timeline.currentTime ?? 0).toString()
-    );
-    video?.setAttribute(
-      "start-time",
-      (document.timeline.currentTime ?? 0).toString()
-    );
-    video?.removeAttribute("pause-time");
+  function restart() {
+    setStartTime(document.timeline.currentTime as number);
+    setPauseTime(null);
   }
 
   function toggleEnabled() {
-    const video = videoRef.current;
-
-    const enabled = video?.getAttribute("enabled") !== "false";
-    video?.setAttribute("enabled", (!enabled).toString());
+    setEnabled(!enabled);
   }
 
   function pause() {
-    const video = videoRef.current;
-
-    if (video?.hasAttribute("pause-time")) return;
-
-    video?.setAttribute(
-      "pause-time",
-      (document.timeline.currentTime ?? 0).toString()
-    );
+    if (!enabled) return;
+    if (pauseTime !== null) return;
+    setPauseTime(document.timeline.currentTime as number);
   }
 
   function unpause() {
-    const video = videoRef.current;
-
-    video?.removeAttribute("pause-time");
+    setPauseTime(null);
   }
 
   function resume() {
-    const video = videoRef.current;
-
-    if (!video?.hasAttribute("pause-time")) return;
-    const startTime = parseFloat(video?.getAttribute("start-time") as string);
-
-    const pauseTime = parseFloat(video?.getAttribute("pause-time") as string);
-
+    if (!enabled) return;
+    if (pauseTime === null) return;
     const playedDuration = pauseTime - startTime;
     const newStartTime =
       (document.timeline.currentTime as number) - playedDuration;
-    video?.removeAttribute("pause-time");
-    video?.setAttribute("start-time", newStartTime.toString());
+    setStartTime(newStartTime);
+    setPauseTime(null);
   }
 
   return (
@@ -84,13 +61,13 @@ export default function VideoPlayer(props: VideoProps) {
       <m-video
         width={width}
         height={height}
-        start-time="0"
         loop={loop}
         src={src}
         y={height}
-        id={id}
-        ref={videoRef}
         volume={0}
+        start-time={startTime}
+        pause-time={pauseTime ?? undefined}
+        enabled={enabled}
       >
         {controls && (
           <m-group y={-height / 2 - height * 0.18}>
@@ -136,7 +113,6 @@ export default function VideoPlayer(props: VideoProps) {
             ></m-label>
             <m-label
               content="enable"
-              x="0"
               font-size={width * 4}
               width={width * 0.18}
               alignment="left"

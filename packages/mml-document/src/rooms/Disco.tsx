@@ -4,7 +4,7 @@ import DiscoFloor from "../components/experiences/DiscoFloor";
 import DiscoBall from "../components/furniture/DiscoBall";
 import BasicRoom from "../components/structures/BasicRoom";
 import Stairs from "../components/structures/Stairs";
-import SimpleSwitch from "../components/utilis/SimpleSwitch";
+import SimpleSwitch from "../components/utils/SimpleSwitch";
 import { RoomProps } from "../types";
 
 const width = 17;

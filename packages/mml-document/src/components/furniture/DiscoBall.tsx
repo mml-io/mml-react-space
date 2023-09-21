@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { GroupProps } from "../../types";
-import { hslToHex } from "../utilis/hslToHex";
+import { hslToHex } from "../utils/hslToHex";
 
 type DiscoBallProps = GroupProps & {
   radius?: number;

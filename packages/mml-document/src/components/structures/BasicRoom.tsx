@@ -98,8 +98,8 @@ export default function BasicRoom(props: BasicRoomProps) {
           y={0.05}
           width={width}
           depth={depth}
-          rx="-90"
-          rz="180"
+          rx={-90}
+          rz={180}
           hasOpening={floorConfig?.hasOpening}
           openingWidth={floorConfig?.openingWidth}
           openingDepth={floorConfig?.openingDepth}
@@ -112,7 +112,6 @@ export default function BasicRoom(props: BasicRoomProps) {
           color={wallColor}
           width={depth ?? 20}
           x={-width / 2}
-          z={0}
           ry={-90}
           height={wallConfig?.height ?? defaultHeight}
           {...wallConfig?.west}
@@ -134,7 +133,6 @@ export default function BasicRoom(props: BasicRoomProps) {
           color={wallColor}
           width={depth ?? 20}
           x={width / 2}
-          z={0}
           ry={-90}
           height={wallConfig?.height ?? defaultHeight}
           {...wallConfig?.east}

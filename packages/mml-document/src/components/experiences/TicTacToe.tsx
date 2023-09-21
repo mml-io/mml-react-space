@@ -2,7 +2,7 @@ import { MCubeElement } from "@mml-io/mml-react-types";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { GroupProps } from "../../types";
-import { EventHandlerCollection } from "../utilis/EventHandlerCollection";
+import { EventHandlerCollection } from "../utils/EventHandlerCollection";
 
 type Player = "X" | "O";
 type ClickEvent = Event & { detail: { connectionId: number } };

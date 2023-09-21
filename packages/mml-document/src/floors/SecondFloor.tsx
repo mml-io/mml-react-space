@@ -61,7 +61,6 @@ export default function SecondFloor(props: GroupProps) {
             },
           },
           west: {
-            hasWindow: true,
             windowPosition: {
               y: 0,
               x: 2.5,
@@ -69,13 +68,13 @@ export default function SecondFloor(props: GroupProps) {
           },
         }}
         floorConfig={{
-          color: "green",
+          color: "#88BB88",
           hasOpening: true,
-          openingDepth: 2,
+          openingDepth: 3,
           openingWidth: 3,
           openingPosition: {
             x: 23.9,
-            z: 6.4,
+            z: 4.5,
           },
         }}
         hasCeiling
@@ -93,7 +92,7 @@ export default function SecondFloor(props: GroupProps) {
           north: { hasWindow: true, windowPosition: { x: 2.6, y: 0 } },
         }}
         floorConfig={{
-          color: "green",
+          color: "#88BB88",
           hasOpening: true,
           openingPosition: { x: 7.7, z: -3.5 },
           openingWidth: 5,
@@ -104,7 +103,7 @@ export default function SecondFloor(props: GroupProps) {
         hasCeiling
       >
         <m-group ry={43.8} z={2.5}>
-          <Wall height={4} width={28.5} ry={0} z={0} hasDoor />
+          <Wall height={4} width={28.5} ry={0} hasDoor />
         </m-group>
         <MMLImage
           src={[
@@ -117,13 +116,12 @@ export default function SecondFloor(props: GroupProps) {
           x={-10.3}
           width={2}
           ry={90}
-          buttonsPosition={-1.05}
         />
       </BasicRoom>
       <BasicRoom
         hasCeiling
         floorConfig={{
-          color: "green",
+          color: "#88BB88",
         }}
         x={23}
         z={-20}
