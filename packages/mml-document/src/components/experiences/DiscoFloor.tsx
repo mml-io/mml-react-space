@@ -78,7 +78,7 @@ export default function DiscoFloor(props: FloorProps) {
         canvasWidth / 2 + user.position.x * scaleX - halfPointDrawSize,
         canvasHeight / 2 - user.position.z * scaleY - halfPointDrawSize,
         pointDrawSize,
-        pointDrawSize
+        pointDrawSize,
       );
     }
     setDataUri(canvas.toDataURL("image/png"));

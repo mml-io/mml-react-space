@@ -17,7 +17,7 @@ export class Room extends Group {
   private readonly floorTexture: Texture | null = null;
   private readonly floorGeometry = new CircleGeometry(
     this.floorSize,
-    this.floorSize
+    this.floorSize,
   );
   private readonly floorMaterial: MeshStandardMaterial;
   private readonly floorMesh: Mesh | null = null;
@@ -45,11 +45,11 @@ export class Room extends Group {
         this.floorTexture!.minFilter = LinearMipMapLinearFilter;
         this.floorTexture!.repeat.set(
           this.floorSize / 1.5,
-          this.floorSize / 1.5
+          this.floorSize / 1.5,
         );
         this.floorMaterial.map = this.floorTexture;
         this.floorMaterial.needsUpdate = true;
-      }
+      },
     );
   }
 }

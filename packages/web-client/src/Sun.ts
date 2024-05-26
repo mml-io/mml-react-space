@@ -18,13 +18,13 @@ export class Sun extends Group {
       this.shadowCamFrustum,
       -this.shadowCamFrustum,
       0.5,
-      500
+      500,
     );
     this.directionalLight = new DirectionalLight(0xffffff, 1);
     this.directionalLight.shadow.camera = this.shadowCamera;
     this.directionalLight.shadow.mapSize.set(
       this.shadowResolution,
-      this.shadowResolution
+      this.shadowResolution,
     );
     this.directionalLight.castShadow = true;
 
@@ -39,7 +39,7 @@ export class Sun extends Group {
     this.directionalLight.position.set(
       newSunPosition.x,
       newSunPosition.y,
-      newSunPosition.z
+      newSunPosition.z,
     );
     this.directionalLight.target.position.copy(position.clone());
     this.directionalLight.target.updateMatrixWorld();

@@ -33,19 +33,19 @@ export default function WallWithWindow(props: WallProps) {
 
   const topWallHeight = Math.max(
     height / 2 - windowHeight / 2 + windowPosition.y,
-    0
+    0,
   );
   const bottomWallHeight = Math.max(
     height / 2 - windowHeight / 2 - windowPosition.y,
-    0
+    0,
   );
   const rightWallWidth = Math.max(
     width / 2 - windowWidth / 2 - windowPosition.x,
-    0
+    0,
   );
   const leftWallWidth = Math.max(
     width / 2 - windowWidth / 2 + windowPosition.x,
-    0
+    0,
   );
 
   return (

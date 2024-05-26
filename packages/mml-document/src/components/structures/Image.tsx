@@ -30,7 +30,7 @@ export default function MMLImage({
     if (!isCarousel) return;
 
     setCurrentImageIndex(
-      (i) => (i + (prev ? -1 : 1) + src.length) % src.length
+      (i) => (i + (prev ? -1 : 1) + src.length) % src.length,
     );
   };
 

@@ -14,9 +14,12 @@ type FloorProps = GroupProps & {
 };
 
 export default function Level({ level, children, ...groupProps }: FloorProps) {
-  const childrenWithLevel = Children.map(children, (child) => {
-    return cloneElement(child as ReactElement<any>, { level });
-  });
+  const childrenWithLevel = Children.map(
+    children as React.ReactElement[],
+    (child) => {
+      return cloneElement(child as ReactElement<any>, { level });
+    },
+  );
 
   return <m-group {...groupProps}>{childrenWithLevel}</m-group>;
 }

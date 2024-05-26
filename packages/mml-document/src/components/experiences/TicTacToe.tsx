@@ -87,7 +87,7 @@ export default function TicTacToe(props: GroupProps) {
         setPlayerO(connectionId);
       }
     },
-    [playerX, playerO]
+    [playerX, playerO],
   );
 
   const handlePadLeaveOrDisconnect = useCallback(
@@ -101,7 +101,7 @@ export default function TicTacToe(props: GroupProps) {
         restart();
       }
     },
-    [playerX, playerO]
+    [playerX, playerO],
   );
 
   useEffect(() => {
@@ -114,21 +114,21 @@ export default function TicTacToe(props: GroupProps) {
       "collisionstart",
       (e: CollisionEvent) => {
         onPlayerPadCollision(e, "X");
-      }
+      },
     );
     eventHandlerCollection.add(
       playerXPad.current as EventTarget,
       "collisionmove",
       (e: CollisionEvent) => {
         onPlayerPadCollision(e, "X");
-      }
+      },
     );
     eventHandlerCollection.add(
       playerXPad.current as EventTarget,
       "collisionend",
       (e: CollisionEvent) => {
         handlePadLeaveOrDisconnect(e);
-      }
+      },
     );
 
     eventHandlerCollection.add(
@@ -136,27 +136,27 @@ export default function TicTacToe(props: GroupProps) {
       "collisionstart",
       (e: CollisionEvent) => {
         onPlayerPadCollision(e, "O");
-      }
+      },
     );
     eventHandlerCollection.add(
       playerOPad.current as EventTarget,
       "collisionmove",
       (e: CollisionEvent) => {
         onPlayerPadCollision(e, "O");
-      }
+      },
     );
     eventHandlerCollection.add(
       playerOPad.current as EventTarget,
       "collisionend",
       (e: CollisionEvent) => {
         handlePadLeaveOrDisconnect(e);
-      }
+      },
     );
 
     eventHandlerCollection.add(
       window,
       "disconnected",
-      handlePadLeaveOrDisconnect
+      handlePadLeaveOrDisconnect,
     );
     return () => {
       eventHandlerCollection.clear();
@@ -236,7 +236,7 @@ export default function TicTacToe(props: GroupProps) {
               content={board[index]}
             />
           );
-        })
+        }),
       )}
       <m-label
         x={-1.5}

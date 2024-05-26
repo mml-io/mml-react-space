@@ -1,12 +1,12 @@
 import fs from "fs";
 import url from "url";
 
-import chokidar from "chokidar";
+import * as chokidar from "chokidar";
 import {
   EditableNetworkedDOM,
   LocalObservableDOMFactory,
 } from "networked-dom-server";
-import WebSocket from "ws";
+import * as WebSocket from "ws";
 
 const getMmlDocumentContent = (documentPath: string) => {
   const contents = fs.readFileSync(documentPath, {
@@ -22,7 +22,7 @@ export class ReactMMLDocumentServer {
   constructor(private mmlDocumentPath: string) {
     this.mmlDocument = new EditableNetworkedDOM(
       url.pathToFileURL(this.mmlDocumentPath).toString(),
-      LocalObservableDOMFactory
+      LocalObservableDOMFactory,
     );
 
     // Watch for changes in DOM file and reload

@@ -70,7 +70,7 @@ export default function WallProbe() {
         return remainingUsers;
       });
     },
-    []
+    [],
   );
 
   const handleDisconnect = handlePositionLeave; // Reuse for simplicity.

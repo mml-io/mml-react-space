@@ -23,7 +23,7 @@ export default function DiscoBall(props: DiscoBallProps) {
 
     intervalRef.current = setInterval(() => {
       setActiveColor(
-        hslToHex((((Date.now() + 2000) % 4000) / 4000) * 360, 1, 0.5)
+        hslToHex((((Date.now() + 2000) % 4000) / 4000) * 360, 1, 0.5),
       );
     }, 100);
 

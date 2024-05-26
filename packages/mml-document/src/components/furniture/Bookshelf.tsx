@@ -32,7 +32,7 @@ export default function Bookshelf(props: GroupProps) {
         (shelfWidth - bookWidth * 3) / 2; // random X within shelf
       if (
         positions.every(
-          (x) => Math.abs(newBookX - x) > bookWidth + shelfSpacing
+          (x) => Math.abs(newBookX - x) > bookWidth + shelfSpacing,
         )
       ) {
         // check for overlap
@@ -55,7 +55,7 @@ export default function Bookshelf(props: GroupProps) {
         y={i * 0.45 + 0.185} // Place book on shelf
         color={["red", "green", "blue", "yellow", "purple"][j % 5]} // Rotate colors
       />
-    ))
+    )),
   );
 
   return (

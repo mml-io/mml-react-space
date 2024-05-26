@@ -46,19 +46,19 @@ export default function Ceiling(props: CeilingProps) {
 
   const northWallDepth = Math.max(
     depth / 2 - openingDepth / 2 + openingPosition.z,
-    0
+    0,
   );
   const southWallDepth = Math.max(
     depth / 2 - openingDepth / 2 - openingPosition.z,
-    0
+    0,
   );
   const eastWallWidth = Math.max(
     width / 2 - openingWidth / 2 - openingPosition.x,
-    0
+    0,
   );
   const westWallWidth = Math.max(
     width / 2 - openingWidth / 2 + openingPosition.x,
-    0
+    0,
   );
 
   return (

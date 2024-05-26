@@ -4,7 +4,7 @@ type EventSpecificationTuple = [
   EventTarget,
   string,
   ListenerFunc,
-  AddEventListenerOptions?
+  AddEventListenerOptions?,
 ];
 
 export class EventHandlerCollection {
@@ -15,7 +15,7 @@ export class EventHandlerCollection {
     target: EventTarget,
     key: string,
     listener: ListenerFunc,
-    options?: AddEventListenerOptions
+    options?: AddEventListenerOptions,
   ): this {
     target.addEventListener(key, listener, options);
 
@@ -46,7 +46,7 @@ export class EventHandlerCollection {
   }
 
   static create(
-    initial?: Array<EventSpecificationTuple>
+    initial?: Array<EventSpecificationTuple>,
   ): EventHandlerCollection {
     const instance = new EventHandlerCollection();
     if (initial !== undefined) {

@@ -42,9 +42,9 @@ export default function AutomaticDoors(props: AutomaticDoorsProps) {
             (event: MMLCollisionStartEvent) => {
               const { connectionId } = event.detail;
               setCollidingUsers(
-                new Set(Array.from(collidingUsers).concat([connectionId]))
+                new Set(Array.from(collidingUsers).concat([connectionId])),
               );
-            }
+            },
           );
           el.addEventListener("collisionend", (event: MMLCollisionEndEvent) => {
             const { connectionId } = event.detail;
