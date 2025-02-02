@@ -5,9 +5,11 @@ const host = window.location.host;
 const userNetworkAddress = `${protocol}//${host}/network`;
 const chatNetworkAddress = `${protocol}//${host}/chat-network`;
 
+const sessionToken = new URLSearchParams(window.location.search).get("_s");
+
 const holder = Networked3dWebExperienceClient.createFullscreenHolder();
 const app = new Networked3dWebExperienceClient(holder, {
-  sessionToken: (window as any).SESSION_TOKEN,
+  sessionToken: sessionToken || (window as any).SESSION_TOKEN,
   userNetworkAddress,
   chatNetworkAddress,
   animationConfig: {
@@ -15,8 +17,20 @@ const app = new Networked3dWebExperienceClient(holder, {
     idleAnimationFileUrl: "/web-client/assets/models/anim_idle.glb",
     jogAnimationFileUrl: "/web-client/assets/models/anim_jog.glb",
     sprintAnimationFileUrl: "/web-client/assets/models/anim_run.glb",
+    doubleJumpAnimationFileUrl: "/web-client/assets/models/anim_double_jump.glb",
   },
-  hdrJpgUrl: "/web-client/assets/hdr/puresky_2k.jpg",
-  mmlDocuments: [{ url: `${protocol}//${host}/mml-document` }],
+  environmentConfiguration: {
+    skybox: {
+      hdrJpgUrl: "/web-client/assets/hdr/puresky_2k.jpg",
+    },
+  },
+  avatarConfiguration: {
+    availableAvatars: [],
+  },
+  mmlDocuments: {
+    index: {
+      url: `${protocol}//${host}/mml-document`,
+    },
+  },
 });
 app.update();
