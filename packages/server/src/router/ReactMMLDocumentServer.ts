@@ -1,11 +1,11 @@
 import fs from "fs";
 import url from "url";
 
-import * as chokidar from "chokidar";
 import {
   EditableNetworkedDOM,
   LocalObservableDOMFactory,
-} from "networked-dom-server";
+} from "@mml-io/networked-dom-server";
+import * as chokidar from "chokidar";
 import * as WebSocket from "ws";
 
 const getMmlDocumentContent = (documentPath: string) => {

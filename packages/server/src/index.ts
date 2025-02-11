@@ -10,38 +10,43 @@ import enableWs from "express-ws";
 
 import { BasicUserAuthenticator } from "./BasicUserAuthenticator";
 import { ReactMMLDocumentServer } from "./router/ReactMMLDocumentServer";
+import { registerDolbyVoiceRoutes } from "./voice-routes";
 
 const dirname = url.fileURLToPath(new URL(".", import.meta.url));
 const PORT = process.env.PORT || 8080;
+
+// --- Express WS Server ----------
+const { app } = enableWs(express());
+app.enable("trust proxy");
+
+// --- Serve assets with CORS allowing all origins ---
+app.use("/assets/", cors(), expressStatic(path.resolve(dirname, "../assets/")));
+
+// --- Dolby Voice ----------
+const DOLBY_APP_KEY = process.env.DOLBY_APP_KEY ?? "";
+const DOLBY_APP_SECRET = process.env.DOLBY_APP_SECRET ?? "";
+if (DOLBY_APP_KEY && DOLBY_APP_SECRET) {
+  registerDolbyVoiceRoutes(app, { DOLBY_APP_KEY, DOLBY_APP_SECRET });
+}
+
+// --- React MML Document Server ----------
 const MML_DOCUMENT_PATH = path.join(
   dirname,
   "../../mml-document/build/index.js",
 );
-
-const { app } = enableWs(express());
-app.enable("trust proxy");
-
-const webClientBuildDir = path.join(dirname, "../../web-client/build/");
-const indexContent = fs.readFileSync(
-  path.join(webClientBuildDir, "index.html"),
-  "utf8",
-);
-
 const mmlDocumentServer = new ReactMMLDocumentServer(MML_DOCUMENT_PATH);
-
-// Handle playground document sockets
 app.ws("/mml-document", (ws) => {
   mmlDocumentServer.handle(ws);
 });
 
-// Serve assets with CORS allowing all origins
-app.use("/assets/", cors(), expressStatic(path.resolve(dirname, "../assets/")));
+// --- User Authentication ----------
+
 // Specify the avatar to use here:
 const characterDescription: CharacterDescription = {
   // Option 1 (Default) - Use a GLB file directly
   meshFileUrl: "/assets/models/bot.glb", // This is just an address of a GLB file
   // Option 2 - Use an MML Character from a URL
-  // mmlCharacterUrl: "https://...",
+  // mmlCharacterUrl: "https://pathto.mml.io/mml-character",
   // Option 3 - Use an MML Character from a string
   // mmlCharacterString: `
   // <m-character src="/assets/models/bot.glb">
@@ -54,6 +59,8 @@ const characterDescription: CharacterDescription = {
   // </m-character>
   // `,
 };
+
+// UserAuthenticator
 const userAuthenticator = new BasicUserAuthenticator(characterDescription, {
   /*
    This option allows sessions that are reconnecting from a previous run of the server to connect even if the present a
@@ -63,6 +70,15 @@ const userAuthenticator = new BasicUserAuthenticator(characterDescription, {
   */
   devAllowUnrecognizedSessions: true,
 });
+
+// --- Networked 3d Web Experience Server ----------
+
+// Web client build directory and index content
+const webClientBuildDir = path.join(dirname, "../../web-client/build/");
+const indexContent = fs.readFileSync(
+  path.join(webClientBuildDir, "index.html"),
+  "utf8",
+);
 
 const networked3dWebExperienceServer = new Networked3dWebExperienceServer({
   networkPath: "/network",

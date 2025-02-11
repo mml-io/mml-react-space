@@ -32,7 +32,7 @@ export class BasicUserAuthenticator {
     private options: BasicUserAuthenticatorOptions = defaultOptions,
   ) {}
 
-  public generateAuthorizedSessionToken(): string {
+  async generateAuthorizedSessionToken(): Promise<string> {
     const sessionToken = crypto.randomBytes(20).toString("hex");
     const authUser: AuthUser = {
       clientId: null,
@@ -40,7 +40,7 @@ export class BasicUserAuthenticator {
     };
 
     this.userBySessionToken.set(sessionToken, authUser);
-    return sessionToken;
+    return Promise.resolve(sessionToken);
   }
 
   public onClientConnect(
