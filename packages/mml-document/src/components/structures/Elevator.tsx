@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import BasicRoom from "./BasicRoom";
 import { GroupProps } from "../../types";
 import SimpleSwitch from "../utils/SimpleSwitch";
 import SlidingDoors from "../utils/SlidingDoors";
+import BasicRoom from "./BasicRoom";
 
 type ElevatorProps = GroupProps & {
   levels: number;
@@ -166,7 +166,7 @@ export default function Elevator(props: ElevatorProps) {
             duration={Math.abs(currentFloor - targetFloor) * floorTime}
             start-time={startTime + doorDuration}
             easing="easeInOutQuad"
-            loop={false}
+            loop={"false"}
             start={startY.toString(10)}
             end={newY.toString(10)}
           />

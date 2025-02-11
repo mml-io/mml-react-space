@@ -1,12 +1,12 @@
-import fs from "fs";
-import path from "path";
-import url from "url";
-
 import { Networked3dWebExperienceServer } from "@mml-io/3d-web-experience-server";
 import type { CharacterDescription } from "@mml-io/3d-web-user-networking";
 import cors from "cors";
 import express, { static as expressStatic } from "express";
 import enableWs from "express-ws";
+import fs from "fs";
+import path from "path";
+import url from "url";
+import ws from "ws";
 
 import { BasicUserAuthenticator } from "./BasicUserAuthenticator";
 import { ReactMMLDocumentServer } from "./router/ReactMMLDocumentServer";
@@ -35,8 +35,8 @@ const MML_DOCUMENT_PATH = path.join(
   "../../mml-document/build/index.js",
 );
 const mmlDocumentServer = new ReactMMLDocumentServer(MML_DOCUMENT_PATH);
-app.ws("/mml-document", (ws) => {
-  mmlDocumentServer.handle(ws);
+app.ws("/mml-document", (webSocket: ws.WebSocket) => {
+  mmlDocumentServer.handle(webSocket);
 });
 
 // --- User Authentication ----------

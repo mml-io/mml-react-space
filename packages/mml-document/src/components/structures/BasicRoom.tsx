@@ -1,9 +1,9 @@
 import React from "react";
 
+import { GroupProps } from "../../types";
 import Ceiling from "./Ceiling";
 import Floor from "./Floor";
 import Wall from "./Wall";
-import { GroupProps } from "../../types";
 
 const defaultWidth = 20;
 const defaultDepth = 20;

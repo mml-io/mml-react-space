@@ -11,12 +11,12 @@ type DiscoBallProps = GroupProps & {
 
 export default function DiscoBall(props: DiscoBallProps) {
   const { radius = 0.5, isOn, color = "silver", ...groupProps } = props;
-  const intervalRef = useRef<ReturnType<typeof setInterval>>();
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const [activeColor, setActiveColor] = useState("white");
 
   useEffect(() => {
-    if (!isOn) {
+    if (!isOn && intervalRef.current !== null) {
       clearInterval(intervalRef.current);
       return;
     }
@@ -28,7 +28,9 @@ export default function DiscoBall(props: DiscoBallProps) {
     }, 100);
 
     return () => {
-      clearInterval(intervalRef.current); // clear interval when component unmounts
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current); // clear interval when component unmounts
+      }
     };
   }, [isOn]);
 

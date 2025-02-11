@@ -1,10 +1,9 @@
-import crypto from "crypto";
-
-import { UserIdentity } from "@mml-io/3d-web-user-networking";
 import type {
   CharacterDescription,
   UserData,
 } from "@mml-io/3d-web-user-networking";
+import { UserIdentity } from "@mml-io/3d-web-user-networking";
+import crypto from "crypto";
 
 export type AuthUser = {
   // clientId is the connection identifier for the user - it is null before the client websocket is connected
@@ -50,19 +49,19 @@ export class BasicUserAuthenticator {
   ): UserData | null {
     console.log(`Client ID: ${clientId} joined with token`);
     let user = this.userBySessionToken.get(sessionToken);
+    if (!user && this.options.devAllowUnrecognizedSessions) {
+      console.warn(`Dev mode: allowing unrecognized session token`);
+      user = {
+        clientId: null,
+        sessionToken,
+      };
+      this.userBySessionToken.set(sessionToken, user);
+    }
+
     if (!user) {
       console.error(
         `Invalid initial user-update for clientId ${clientId}, unknown session`,
       );
-
-      if (this.options.devAllowUnrecognizedSessions) {
-        console.warn(`Dev mode: allowing unrecognized session token`);
-        user = {
-          clientId: null,
-          sessionToken,
-        };
-        this.userBySessionToken.set(sessionToken, user);
-      }
       return null;
     }
 
