@@ -1,12 +1,11 @@
-import fs from "fs";
-import url from "url";
-
 import {
   EditableNetworkedDOM,
   LocalObservableDOMFactory,
 } from "@mml-io/networked-dom-server";
-import * as chokidar from "chokidar";
-import * as WebSocket from "ws";
+import { watch } from "chokidar";
+import fs from "fs";
+import url from "url";
+import * as ws from "ws";
 
 const getMmlDocumentContent = (documentPath: string) => {
   const contents = fs.readFileSync(documentPath, {
@@ -26,16 +25,16 @@ export class ReactMMLDocumentServer {
     );
 
     // Watch for changes in DOM file and reload
-    chokidar.watch(this.mmlDocumentPath).on("change", () => {
+    watch(this.mmlDocumentPath).on("change", () => {
       this.reload();
     });
     this.reload();
   }
 
-  public handle(ws: WebSocket) {
-    this.mmlDocument.addWebSocket(ws as any);
-    ws.on("close", () => {
-      this.mmlDocument.removeWebSocket(ws as any);
+  public handle(webSocket: ws.WebSocket) {
+    this.mmlDocument.addWebSocket(webSocket as unknown as WebSocket);
+    webSocket.on("close", () => {
+      this.mmlDocument.removeWebSocket(webSocket as unknown as WebSocket);
     });
   }
 

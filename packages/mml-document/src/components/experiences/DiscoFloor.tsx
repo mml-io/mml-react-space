@@ -151,7 +151,7 @@ export default function DiscoFloor(props: FloorProps) {
         src={dataUri}
         rx={90}
         y={0.01}
-        collide={false}
+        collide={"false"}
         width={width}
         height={depth}
       ></m-image>

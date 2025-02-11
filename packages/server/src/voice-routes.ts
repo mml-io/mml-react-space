@@ -45,7 +45,10 @@ export function registerDolbyVoiceRoutes(
         const accessToken = await fetchAccessToken(apiToken, id);
         res.json({ accessToken: accessToken.access_token });
       } catch (err) {
-        if (typeof err === "string" && err.includes("Expired or invalid token")) {
+        if (
+          typeof err === "string" &&
+          err.includes("Expired or invalid token")
+        ) {
           try {
             console.log("Token is invalid or expired. Fetching a new one");
             apiTokenPromise = fetchApiToken();

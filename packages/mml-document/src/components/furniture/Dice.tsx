@@ -46,7 +46,7 @@ export default function Dice(props: GroupProps) {
           start-time={rollTime}
           start={halfDiceHeight.toString(10)}
           end={(heightGain + halfDiceHeight).toString(10)}
-          loop={false}
+          loop={"false"}
         ></m-attr-anim>
         <m-attr-anim
           easing="easeOutBounce"
@@ -55,7 +55,7 @@ export default function Dice(props: GroupProps) {
           duration={downDuration}
           start={(heightGain + halfDiceHeight).toString(10)}
           end={halfDiceHeight.toString(10)}
-          loop={false}
+          loop={"false"}
         ></m-attr-anim>
         <m-attr-anim
           easing="easeInOutCubic"
@@ -64,7 +64,7 @@ export default function Dice(props: GroupProps) {
           start-time={rollTime}
           start={oldRotation[0].toString(10)}
           end={targetRotation[0].toString(10)}
-          loop={false}
+          loop={"false"}
         ></m-attr-anim>
         <m-attr-anim
           easing="easeInOutCubic"
@@ -73,7 +73,7 @@ export default function Dice(props: GroupProps) {
           start-time={rollTime}
           start={oldRotation[1].toString(10)}
           end={targetRotation[1].toString(10)}
-          loop={false}
+          loop={"false"}
         ></m-attr-anim>
         <m-attr-anim
           easing="easeInOutCubic"
@@ -82,7 +82,7 @@ export default function Dice(props: GroupProps) {
           start-time={rollTime}
           start={oldRotation[2].toString(10)}
           end={targetRotation[2].toString(10)}
-          loop={false}
+          loop={"false"}
         ></m-attr-anim>
       </m-model>
     </m-group>

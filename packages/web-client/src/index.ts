@@ -17,7 +17,8 @@ const app = new Networked3dWebExperienceClient(holder, {
     idleAnimationFileUrl: "/web-client/assets/models/anim_idle.glb",
     jogAnimationFileUrl: "/web-client/assets/models/anim_jog.glb",
     sprintAnimationFileUrl: "/web-client/assets/models/anim_run.glb",
-    doubleJumpAnimationFileUrl: "/web-client/assets/models/anim_double_jump.glb",
+    doubleJumpAnimationFileUrl:
+      "/web-client/assets/models/anim_double_jump.glb",
   },
   environmentConfiguration: {
     skybox: {

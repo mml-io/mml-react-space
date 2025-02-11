@@ -45,7 +45,7 @@ export default function SlidingDoors(props: SlidingDoorsProps) {
           duration={duration}
           start-time={startTime}
           easing="easeInOutQuad"
-          loop={false}
+          loop={"false"}
           start={(-(isOpen ? closeX : openX)).toString(10)}
           end={(-(isOpen ? openX : closeX)).toString(10)}
         />
@@ -62,7 +62,7 @@ export default function SlidingDoors(props: SlidingDoorsProps) {
           duration={duration}
           start-time={startTime}
           easing="easeInOutQuad"
-          loop={false}
+          loop={"false"}
           start={(isOpen ? closeX : openX).toString(10)}
           end={(isOpen ? openX : closeX).toString(10)}
         />

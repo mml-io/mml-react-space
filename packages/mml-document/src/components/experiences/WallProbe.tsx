@@ -118,7 +118,7 @@ export default function WallProbe() {
               attr={"x"}
               start-time={user.time}
               duration={interval}
-              loop={false}
+              loop={"false"}
               start={user.lastPosition.x.toString(10)}
               end={user.position.x.toString(10)}
             />
@@ -126,7 +126,7 @@ export default function WallProbe() {
               attr={"y"}
               start-time={user.time}
               duration={interval}
-              loop={false}
+              loop={"false"}
               start={(user.lastPosition.y + 2).toString(10)}
               end={(user.position.y + 2).toString(10)}
             />
@@ -134,7 +134,7 @@ export default function WallProbe() {
               attr={"z"}
               start-time={user.time}
               duration={interval}
-              loop={false}
+              loop={"false"}
               start={user.lastPosition.z.toString(10)}
               end={user.position.z.toString(10)}
             />
@@ -142,20 +142,20 @@ export default function WallProbe() {
               attr={"ry"}
               start-time={user.time}
               duration={interval}
-              loop={false}
+              loop={"false"}
               start={user.lastRotation.y.toString(10)}
               end={user.rotation.y.toString(10)}
             />
             <m-cube
               color={user.color}
-              collide={false}
+              collide={"false"}
               width={0.1}
               height={0.1}
               depth={0.5}
             />
             <m-cube
               color={user.color}
-              collide={false}
+              collide={"false"}
               x={-0.055}
               z={0.25}
               width={0.1}
@@ -165,7 +165,7 @@ export default function WallProbe() {
             />
             <m-cube
               color={user.color}
-              collide={false}
+              collide={"false"}
               x={0.055}
               z={0.25}
               width={0.1}

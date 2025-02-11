@@ -14,7 +14,7 @@ import {
 
 export class Room extends Group {
   private readonly floorSize = 210;
-  private readonly floorTexture: Texture | null = null;
+  private readonly floorTexture: Texture;
   private readonly floorGeometry = new CircleGeometry(
     this.floorSize,
     this.floorSize,
@@ -39,11 +39,11 @@ export class Room extends Group {
     this.floorTexture = new TextureLoader(new LoadingManager()).load(
       "/web-client/assets/textures/checker.png",
       () => {
-        this.floorTexture!.wrapS = RepeatWrapping;
-        this.floorTexture!.wrapT = RepeatWrapping;
-        this.floorTexture!.magFilter = NearestFilter;
-        this.floorTexture!.minFilter = LinearMipMapLinearFilter;
-        this.floorTexture!.repeat.set(
+        this.floorTexture.wrapS = RepeatWrapping;
+        this.floorTexture.wrapT = RepeatWrapping;
+        this.floorTexture.magFilter = NearestFilter;
+        this.floorTexture.minFilter = LinearMipMapLinearFilter;
+        this.floorTexture.repeat.set(
           this.floorSize / 1.5,
           this.floorSize / 1.5,
         );

@@ -61,7 +61,7 @@ export default function VideoPlayer(props: VideoProps) {
       <m-video
         width={width}
         height={height}
-        loop={loop}
+        loop={loop ? "true" : "false"}
         src={src}
         y={height}
         volume={0}

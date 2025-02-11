@@ -1,7 +1,7 @@
 import React from "react";
 
-import WallWithWindow from "./WallWithWindow";
 import { GroupProps } from "../../types";
+import WallWithWindow from "./WallWithWindow";
 
 type WallProps = GroupProps & {
   color?: string;
